@@ -1,0 +1,1746 @@
+<title>אַרְגַּז הַמִּשְׂחָקִים שֶׁל קָאִי</title>
+
+<style>
+  :root {
+    --ground: #F6F4FB;
+    --ground-2: #EDEAF7;
+    --card: #FFFFFF;
+    --ink: #3B3557;
+    --muted: #6C6488;
+    --line: #DCD5F0;
+    --line-soft: #E8E3F5;
+
+    --mint: #A9E2D0;
+    --mint-deep: #1F7361;
+    --lilac: #C9BCF3;
+    --peach: #FFD2B8;
+    --butter: #FBE7A4;
+    --blush: #F8B6C4;
+    --sky: #BFDDF6;
+
+    --shadow: 0 8px 22px rgba(59, 53, 87, .10);
+    --shadow-lift: 0 12px 28px rgba(59, 53, 87, .16);
+
+    --f-body: system-ui, -apple-system, "Segoe UI", "Arial Hebrew", "Noto Sans Hebrew", sans-serif;
+    --f-num: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+    --maxw: 1180px;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ground: #201C31;
+      --ground-2: #2A2540;
+      --card: #2C2743;
+      --ink: #F1EEFA;
+      --muted: #B6AECF;
+      --line: #453D66;
+      --line-soft: #3A3358;
+
+      --mint: #7FCEB9;
+      --mint-deep: #A9E2D0;
+      --lilac: #B3A2EE;
+      --peach: #F5BC9C;
+      --butter: #EDD489;
+      --blush: #EC9DAE;
+      --sky: #A5CDEE;
+
+      --shadow: 0 8px 22px rgba(0, 0, 0, .35);
+      --shadow-lift: 0 12px 28px rgba(0, 0, 0, .45);
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --ground: #201C31;
+    --ground-2: #2A2540;
+    --card: #2C2743;
+    --ink: #F1EEFA;
+    --muted: #B6AECF;
+    --line: #453D66;
+    --line-soft: #3A3358;
+    --mint: #7FCEB9;
+    --mint-deep: #A9E2D0;
+    --lilac: #B3A2EE;
+    --peach: #F5BC9C;
+    --butter: #EDD489;
+    --blush: #EC9DAE;
+    --sky: #A5CDEE;
+    --shadow: 0 8px 22px rgba(0, 0, 0, .35);
+    --shadow-lift: 0 12px 28px rgba(0, 0, 0, .45);
+  }
+
+  :root[data-theme="light"] {
+    --ground: #F6F4FB;
+    --ground-2: #EDEAF7;
+    --card: #FFFFFF;
+    --ink: #3B3557;
+    --muted: #6C6488;
+    --line: #DCD5F0;
+    --line-soft: #E8E3F5;
+    --mint: #A9E2D0;
+    --mint-deep: #1F7361;
+    --lilac: #C9BCF3;
+    --peach: #FFD2B8;
+    --butter: #FBE7A4;
+    --blush: #F8B6C4;
+    --sky: #BFDDF6;
+    --shadow: 0 8px 22px rgba(59, 53, 87, .10);
+    --shadow-lift: 0 12px 28px rgba(59, 53, 87, .16);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--ground);
+    color: var(--ink);
+    font-family: var(--f-body);
+    font-size: 20px;
+    line-height: 1.85;
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: rgba(169, 226, 208, .4);
+  }
+
+  .page {
+    direction: rtl;
+    text-align: right;
+    max-width: var(--maxw);
+    margin: 0 auto;
+    padding: 26px 22px 90px;
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+  }
+
+  /* ---------- header ---------- */
+
+  .top {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .brand { display: flex; align-items: center; gap: 12px; }
+  .brand-mark { font-size: 36px; line-height: 1; }
+
+  .brand-name { font-size: 25px; font-weight: 800; line-height: 1.35; }
+  .brand-sub { font-size: 16px; color: var(--muted); line-height: 1.4; }
+
+  .score {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--card);
+    border: 2px solid var(--line);
+    border-radius: 999px;
+    padding: 10px 22px;
+    font-size: 17px;
+    font-weight: 700;
+    box-shadow: var(--shadow);
+  }
+
+  .score-num {
+    font-family: var(--f-num);
+    font-variant-numeric: tabular-nums;
+    color: var(--mint-deep);
+  }
+
+  .score-bar {
+    width: 96px;
+    height: 12px;
+    border-radius: 999px;
+    background: var(--ground-2);
+    overflow: hidden;
+  }
+
+  .score-fill {
+    display: block;
+    height: 100%;
+    width: 0%;
+    background: var(--mint);
+    transition: width .4s ease;
+  }
+
+  /* ---------- hero ---------- */
+
+  .hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.08fr);
+    gap: 36px;
+    align-items: center;
+  }
+
+  @media (max-width: 1000px) {
+    .hero { grid-template-columns: 1fr; }
+  }
+
+  .hero-copy h1 {
+    margin: 0 0 10px;
+    font-size: clamp(38px, 5.6vw, 56px);
+    line-height: 1.18;
+    font-weight: 900;
+    text-wrap: balance;
+  }
+
+  .hero-copy h1 em { font-style: normal; color: var(--mint-deep); }
+
+  .squiggle {
+    display: block;
+    width: min(320px, 72%);
+    height: 16px;
+    margin: 0 0 22px;
+    color: var(--blush);
+  }
+
+  .hero-copy p { margin: 0; max-width: 32ch; color: var(--muted); }
+
+  .jump { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 26px; }
+
+  /* ---------- machine ---------- */
+
+  .machine {
+    background: var(--mint);
+    border-radius: 30px;
+    box-shadow: var(--shadow-lift);
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .machine-label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    color: #1F5A4C;
+    font-size: 17px;
+    font-weight: 800;
+  }
+
+  :root[data-theme="dark"] .machine-label,
+  .machine-label { color: #1F5A4C; }
+
+  .bulbs { display: flex; gap: 8px; }
+
+  .bulb {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #1F5A4C;
+    opacity: .25;
+  }
+
+  .machine.thinking .bulb { animation: blink .5s steps(1) infinite; }
+  .machine.thinking .bulb:nth-child(2) { animation-delay: .16s; }
+  .machine.thinking .bulb:nth-child(3) { animation-delay: .32s; }
+
+  @keyframes blink {
+    0%, 49% { opacity: 1; }
+    50%, 100% { opacity: .25; }
+  }
+
+  .slot {
+    background: var(--card);
+    border-radius: 22px;
+    min-height: 300px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .slot-empty { color: var(--muted); text-align: center; }
+
+  .slot-empty span {
+    display: block;
+    font-size: 46px;
+    line-height: 1.2;
+    margin-bottom: 6px;
+  }
+
+  .pick { animation: drop .34s cubic-bezier(.2, .9, .3, 1.1); }
+
+  @keyframes drop {
+    from { transform: translateY(-18px); opacity: 0; }
+    to { transform: none; opacity: 1; }
+  }
+
+  .pick-cat { font-size: 17px; font-weight: 800; color: var(--mint-deep); }
+
+  .pick h2 {
+    margin: 4px 0 8px;
+    font-size: clamp(28px, 3.4vw, 36px);
+    line-height: 1.25;
+    font-weight: 900;
+  }
+
+  .pick-line { margin: 0 0 12px; color: var(--muted); }
+
+  .pick-steps { margin: 0; padding-inline-start: 24px; font-size: 18px; }
+
+  .machine-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+
+  /* ---------- buttons ---------- */
+
+  .btn {
+    font-family: inherit;
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--ink);
+    background: var(--peach);
+    border: none;
+    border-radius: 20px;
+    min-height: 62px;
+    padding: 12px 26px;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+    transition: transform .14s ease, box-shadow .14s ease;
+  }
+
+  .btn:active { transform: scale(.97); box-shadow: var(--shadow); }
+  .btn--main { flex: 1; min-width: 210px; }
+  .btn--ghost { background: var(--card); }
+
+  .btn--jump {
+    background: var(--card);
+    font-size: 18px;
+    min-height: 56px;
+    border: 2px solid var(--line);
+  }
+
+  /* ---------- filters ---------- */
+
+  .filters { display: flex; flex-direction: column; gap: 16px; }
+
+  .filter-row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+
+  .filter-title {
+    font-size: 17px;
+    font-weight: 800;
+    color: var(--muted);
+    min-width: 112px;
+  }
+
+  .chip {
+    font-family: inherit;
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--ink);
+    background: var(--card);
+    border: 2px solid var(--line);
+    border-radius: 999px;
+    min-height: 50px;
+    padding: 6px 20px;
+    cursor: pointer;
+    transition: background .14s ease, border-color .14s ease;
+  }
+
+  .chip .chip-ico { margin-inline-end: 7px; }
+
+  .chip[aria-pressed="true"] {
+    background: var(--lilac);
+    border-color: var(--lilac);
+  }
+
+  .chip:focus-visible,
+  .btn:focus-visible,
+  summary:focus-visible,
+  .done:focus-visible {
+    outline: 4px solid var(--mint-deep);
+    outline-offset: 3px;
+  }
+
+  .count { margin: 0; font-size: 17px; color: var(--muted); }
+  .count b { font-family: var(--f-num); color: var(--ink); }
+
+  /* ---------- section heads ---------- */
+
+  .sec-head { margin-bottom: 20px; }
+
+  .sec-head h2 {
+    margin: 0 0 4px;
+    font-size: clamp(28px, 3.4vw, 36px);
+    font-weight: 900;
+    line-height: 1.3;
+  }
+
+  .sec-head p { margin: 0; color: var(--muted); max-width: 46ch; }
+
+  /* ---------- cards ---------- */
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    align-items: start;
+    gap: 22px;
+  }
+
+  .card {
+    background: var(--card);
+    border: 2px solid var(--line-soft);
+    border-radius: 26px;
+    box-shadow: var(--shadow);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .card[data-done="1"] { opacity: .58; }
+
+  .card-head { display: flex; align-items: flex-start; gap: 14px; }
+
+  .sticker {
+    flex: none;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-size: 30px;
+    background: var(--tint, var(--ground-2));
+  }
+
+  .card h3 { margin: 0; font-size: 25px; font-weight: 800; line-height: 1.3; }
+
+  .card-cat { display: block; font-size: 16px; font-weight: 700; color: var(--muted); }
+
+  .card-line { margin: 0; font-size: 18px; }
+
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 16px;
+    font-size: 16px;
+    color: var(--muted);
+    border-top: 2px solid var(--line-soft);
+    padding-top: 12px;
+  }
+
+  .meta-num {
+    font-family: var(--f-num);
+    font-variant-numeric: tabular-nums;
+    color: var(--ink);
+    font-weight: 700;
+  }
+
+  .mess { display: inline-flex; align-items: center; gap: 6px; }
+  .dots { display: inline-flex; gap: 5px; }
+
+  .dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: transparent;
+    border: 2px solid var(--line);
+  }
+
+  .dot[data-on="1"] { background: var(--mess-color); border-color: var(--mess-color); }
+  .mess[data-level="1"] { --mess-color: var(--mint); }
+  .mess[data-level="2"] { --mess-color: var(--butter); }
+  .mess[data-level="3"] { --mess-color: var(--blush); }
+
+  summary {
+    list-style: none;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--mint-deep);
+    min-height: 46px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  summary::-webkit-details-marker { display: none; }
+  summary .arrow { font-size: 14px; }
+  details[open] summary .arrow { transform: rotate(180deg); }
+
+  .card details ol { margin: 8px 0 0; padding-inline-start: 26px; font-size: 18px; }
+  .card details ol li::marker { color: var(--mint-deep); font-weight: 800; }
+
+  .stuff { margin: 14px 0 0; font-size: 17px; color: var(--muted); }
+
+  .twist {
+    margin: 14px 0 0;
+    padding: 14px 16px;
+    background: var(--ground-2);
+    border-radius: 18px;
+    font-size: 17px;
+  }
+
+  .card-foot { margin-top: auto; }
+
+  .done {
+    font-family: inherit;
+    width: 100%;
+    font-size: 17px;
+    font-weight: 800;
+    color: var(--ink);
+    background: var(--ground-2);
+    border: none;
+    border-radius: 16px;
+    min-height: 54px;
+    cursor: pointer;
+  }
+
+  .done[aria-pressed="true"] { background: var(--mint); }
+
+  /* ---------- questions ---------- */
+
+  .q-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    align-items: start;
+    gap: 22px;
+  }
+
+  .q-card {
+    background: var(--card);
+    border: 2px solid var(--line-soft);
+    border-radius: 26px;
+    box-shadow: var(--shadow);
+    padding: 20px;
+  }
+
+  .q-card h3 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 800;
+    line-height: 1.35;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .q-ico {
+    flex: none;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: var(--sky);
+    display: grid;
+    place-items: center;
+    font-size: 26px;
+  }
+
+  .q-card details { margin-top: 8px; }
+  .q-card p { margin: 10px 0 0; font-size: 18px; }
+
+  .try {
+    margin: 14px 0 0;
+    padding: 14px 16px;
+    background: var(--ground-2);
+    border-radius: 18px;
+    font-size: 17px;
+  }
+
+  /* ---------- box ---------- */
+
+  .box-section {
+    background: var(--ground-2);
+    border-radius: 30px;
+    padding: 30px;
+  }
+
+  .box-list {
+    margin: 18px 0 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(215px, 1fr));
+    gap: 8px 24px;
+    font-size: 18px;
+  }
+
+  .box-list li { padding-inline-start: 20px; position: relative; }
+
+  .box-list li::before {
+    content: "";
+    position: absolute;
+    inset-inline-start: 0;
+    top: 16px;
+    width: 10px;
+    height: 10px;
+    background: var(--lilac);
+    border-radius: 50%;
+  }
+
+  .rules { margin-top: 26px; padding-top: 22px; border-top: 2px solid var(--line); }
+  .rules h3 { margin: 0 0 8px; font-size: 21px; font-weight: 800; }
+  .rules ol { margin: 0; padding-inline-start: 26px; color: var(--muted); font-size: 18px; }
+
+  .foot { color: var(--muted); font-size: 17px; text-align: center; }
+
+  /* ---------- הקראה ---------- */
+
+  .spk {
+    font-family: inherit;
+    flex: none;
+    margin-inline-start: auto;
+    min-width: 54px;
+    min-height: 54px;
+    font-size: 24px;
+    line-height: 1;
+    color: var(--ink);
+    background: var(--ground-2);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+  }
+
+  .spk:active { transform: scale(.94); }
+  .spk[data-speaking="1"] { background: var(--mint); }
+  .spk:focus-visible { outline: 4px solid var(--mint-deep); outline-offset: 3px; }
+
+  .read-toggle {
+    font-family: inherit;
+    font-size: 17px;
+    font-weight: 800;
+    color: var(--ink);
+    background: var(--card);
+    border: 2px solid var(--line);
+    border-radius: 999px;
+    min-height: 54px;
+    padding: 8px 20px;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+  }
+
+  .read-toggle[aria-pressed="true"] { background: var(--mint); border-color: var(--mint); }
+  .read-toggle:focus-visible { outline: 4px solid var(--mint-deep); outline-offset: 3px; }
+
+  .head-tools { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+
+  body.read-mode .card,
+  body.read-mode .q-card,
+  body.read-mode .sec-head,
+  body.read-mode .twist,
+  body.read-mode .try { cursor: pointer; }
+
+  body.read-mode .card:hover,
+  body.read-mode .q-card:hover { border-color: var(--mint); }
+
+  .reading-now {
+    box-shadow: 0 0 0 4px var(--mint), var(--shadow) !important;
+  }
+
+  .speech-bar {
+    position: fixed;
+    inset-block-end: 18px;
+    inset-inline: 0;
+    margin: 0 auto;
+    width: fit-content;
+    max-width: calc(100% - 36px);
+    display: none;
+    align-items: center;
+    gap: 14px;
+    background: var(--card);
+    border: 2px solid var(--mint);
+    border-radius: 999px;
+    padding: 10px 14px 10px 22px;
+    box-shadow: var(--shadow-lift);
+    z-index: 20;
+  }
+
+  .speech-bar[data-on="1"] { display: flex; }
+
+  body:has(.speech-bar[data-on="1"]) .page { padding-block-end: 150px; }
+  .speech-bar span { font-size: 17px; font-weight: 700; }
+
+  .speech-bar button {
+    font-family: inherit;
+    font-size: 17px;
+    font-weight: 800;
+    color: var(--ink);
+    background: var(--blush);
+    border: none;
+    border-radius: 999px;
+    min-height: 48px;
+    padding: 8px 20px;
+    cursor: pointer;
+  }
+
+  .no-voice {
+    margin: 12px 0 0;
+    padding: 12px 16px;
+    background: var(--ground-2);
+    border-radius: 16px;
+    font-size: 16px;
+    color: var(--muted);
+    display: none;
+  }
+
+  .no-voice[data-on="1"] { display: block; }
+
+  /* ---------- המצאה חדשה ---------- */
+
+  .invent-banner {
+    display: none;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    background: var(--butter);
+    border-radius: 26px;
+    padding: 20px 24px;
+    font-size: 19px;
+    font-weight: 700;
+  }
+
+  .invent-banner[data-on="1"] { display: flex; }
+
+  .pick--new .pick-cat { color: var(--ink); }
+
+  .name-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    margin: 16px 0 0;
+  }
+
+  .name-row label { font-size: 17px; font-weight: 800; }
+
+  .name-row input {
+    font-family: inherit;
+    font-size: 18px;
+    color: var(--ink);
+    background: var(--ground-2);
+    border: 2px solid var(--line);
+    border-radius: 14px;
+    min-height: 52px;
+    padding: 8px 16px;
+    flex: 1;
+    min-width: 180px;
+  }
+
+  .name-row input:focus-visible { outline: 4px solid var(--mint-deep); outline-offset: 2px; }
+
+  .sr {
+    position: absolute;
+    width: 1px; height: 1px;
+    margin: -1px; padding: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap; border: 0;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+  }
+</style>
+
+<div class="page">
+
+  <header class="top">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true">🎲</span>
+      <div>
+        <div class="brand-name">אַרְגַּז הַמִּשְׂחָקִים שֶׁל קָאִי</div>
+        <div class="brand-sub"><span id="totalSub"></span> מִשְׂחָקִים, וְעוֹד <span id="totalQ"></span> שְׁאֵלוֹת עַל הָעוֹלָם</div>
+      </div>
+    </div>
+    <div class="head-tools">
+      <button class="read-toggle" id="readToggle" aria-pressed="false">🔊 הַקְרָאָה: כָּבוּי</button>
+      <div class="score">
+        <span>שִׂחַקְתִּי</span>
+        <span class="score-num"><span id="doneCount">0</span>/<span id="totalScore"></span></span>
+        <span class="score-bar"><span class="score-fill" id="scoreFill"></span></span>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-copy">
+      <h1>מְשַׁעֲמֵם לָךְ? <em>לַחֲצִי כָּאן.</em></h1>
+      <svg class="squiggle" viewBox="0 0 300 14" fill="none" aria-hidden="true">
+        <path d="M2 9c18-8 34 4 52-1s30-8 48-2 32 8 50 2 34-8 52-2 30 6 44 3" stroke="currentColor" stroke-width="5" stroke-linecap="round"/>
+      </svg>
+      <p>הַמְּכוֹנָה בּוֹחֶרֶת לָךְ מִשְׂחָק. אַתְּ יְכוֹלָה לְהַתְחִיל אוֹתוֹ עוֹד דַּקָּה, עִם מָה שֶׁיֵּשׁ בַּבַּיִת. וְאִם אַתְּ רוֹצָה שֶׁמִּישֶׁהוּ יַקְרִיא לָךְ — לַחֲצִי עַל הָרַמְקוֹל.</p>
+      <p class="no-voice" id="noVoice">בַּמַּכְשִׁיר הַזֶּה אֵין קוֹל עִבְרִי מֻתְקָן, וְלָכֵן הַהַקְרָאָה לֹא תַּעֲבֹד. בָּאַייפָּד: הַגְדָּרוֹת → נְגִישׁוּת → תֹּכֶן מְדֻבָּר → קוֹלוֹת → עִבְרִית.</p>
+      <div class="jump">
+        <button class="btn btn--jump" id="jumpGames">🎲 כָּל הַמִּשְׂחָקִים</button>
+        <button class="btn btn--jump" id="jumpQ">🌍 שְׁאֵלוֹת עַל הָעוֹלָם</button>
+      </div>
+    </div>
+
+    <div class="machine" id="machine">
+      <div class="machine-label">
+        <span>מְכוֹנַת הָרַעְיוֹנוֹת</span>
+        <span class="bulbs" aria-hidden="true"><i class="bulb"></i><i class="bulb"></i><i class="bulb"></i></span>
+      </div>
+      <div class="slot" id="slot" aria-live="polite">
+        <div class="slot-empty"><span aria-hidden="true">👇</span>לַחֲצִי עַל הַכַּפְתּוֹר</div>
+      </div>
+      <div class="machine-actions">
+        <button class="btn btn--main" id="pickBtn">✨ תֵּן לִי רַעְיוֹן</button>
+        <button class="btn btn--ghost" id="inventBtn">💡 הַמְצָאָה חֲדָשָׁה</button>
+      </div>
+    </div>
+  </section>
+
+  <div class="invent-banner" id="inventBanner">
+    <span>🎉 שִׂחַקְת בְּכָל הַמִּשְׂחָקִים בָּאַרְגַּז! עַכְשָׁו תּוֹרֵךְ לְהַמְצִיא חֲדָשִׁים.</span>
+    <button class="btn" id="inventBtn2">💡 הַמְצָאָה חֲדָשָׁה</button>
+  </div>
+
+  <section class="filters" id="games">
+    <div class="sec-head">
+      <h2>🎲 כָּל הַמִּשְׂחָקִים</h2>
+      <p>לַחֲצִי עַל כַּפְתּוֹר, וְתִשָּׁאֲרוּ רַק הַמִּשְׂחָקִים שֶׁמַּתְאִימִים לָךְ עַכְשָׁו.</p>
+    </div>
+    <div class="filter-row">
+      <span class="filter-title">מָה בָּא לָךְ</span>
+      <div class="filter-row" id="catFilters"></div>
+    </div>
+    <div class="filter-row">
+      <span class="filter-title">כַּמָּה זְמַן</span>
+      <div class="filter-row" id="timeFilters"></div>
+    </div>
+    <div class="filter-row">
+      <span class="filter-title">לְכַלֵּךְ אוֹ לֹא</span>
+      <div class="filter-row" id="messFilters"></div>
+    </div>
+    <p class="count" id="count"></p>
+  </section>
+
+  <section>
+    <div class="grid" id="grid"></div>
+  </section>
+
+  <section id="questions">
+    <div class="sec-head">
+      <h2>🌍 שְׁאֵלוֹת עַל הָעוֹלָם</h2>
+      <p>שְׁאֵלוֹת גְּדוֹלוֹת עִם תְּשׁוּבָה אֲמִתִּית. בְּסוֹף כָּל אַחַת יֵשׁ נִסָּיוֹן קָטָן.</p>
+    </div>
+    <div class="q-grid" id="qGrid"></div>
+  </section>
+
+  <section class="box-section">
+    <div class="sec-head">
+      <h2>📦 מָה כְּדַאי שֶׁיִּהְיֶה בַּקֻּפְסָה</h2>
+      <p>קֻפְסָה אַחַת בָּאָרוֹן, וְכָל הַמִּשְׂחָקִים כָּאן מוּכָנִים.</p>
+    </div>
+    <ul class="box-list">
+      <li>נְיָר דֶּבֶק</li>
+      <li>גְּלִילִים שֶׁל נְיָר טוּאָלֶט</li>
+      <li>קַרְטוֹנִים</li>
+      <li>דַּפִּים לְבָנִים</li>
+      <li>טוּשִׁים וְעֶפְרוֹנוֹת</li>
+      <li>מִסְפָּרַיִם וְסֶלוֹטֵייפּ</li>
+      <li>חוּט אוֹ צֶמֶר</li>
+      <li>כַּפְתּוֹרִים וּמִכְסִים</li>
+      <li>קַשִּׁיּוֹת וּמַקְלוֹנִים</li>
+      <li>פָּנָס</li>
+      <li>גַּרְבַּיִם בְּלִי זוּג</li>
+      <li>קֻבִּיָּה</li>
+      <li>פִּתְקִים דְּבִיקִים</li>
+      <li>צִנְצֶנֶת עִם מִכְסֶה</li>
+      <li>שְׂמִיכָה גְּדוֹלָה</li>
+      <li>סְפָרִים</li>
+    </ul>
+
+    <div class="rules">
+      <h3>שְׁלוֹשָׁה טְרִיקִים נֶגֶד בַּלָּגָן</h3>
+      <ol>
+        <li>שִׂימִי מַגֶּבֶת מִתַּחַת לַמִּשְׂחָק. בַּסּוֹף מְקַפְּלִים אוֹתָהּ, וְזֶה כָּל הַסִּדּוּר.</li>
+        <li>5 דַּקּוֹת לִפְנֵי הַסּוֹף, כָּל דָּבָר חוֹזֵר לַמָּקוֹם שֶׁלּוֹ.</li>
+        <li>אֶפְשָׁר לְהִשְׁתַּמֵּשׁ בַּדְּבָרִים בַּבַּיִת, אֲבָל קֹדֶם שׁוֹאֲלִים.</li>
+      </ol>
+    </div>
+  </section>
+
+  <p class="foot">נִבְנָה בִּשְׁבִיל קָאִי 💜</p>
+</div>
+
+<div class="speech-bar" id="speechBar" data-on="0">
+  <span>🔊 מַקְרִיא…</span>
+  <button type="button" id="stopSpeech">עֲצֹר</button>
+</div>
+
+<script>
+  const GAMES = [
+    {
+      t: "מוּזִיקָה עוֹצֶרֶת, קוֹפְאִים", e: "🕺", cat: "רִקּוּד", time: 15, mess: 1, age: "3+", tint: "var(--peach)",
+      line: "רוֹקְדִים חָפְשִׁי. הַמּוּזִיקָה נֶעֱצֶרֶת — וְקוֹפְאִים כְּמוֹ פֶּסֶל.",
+      stuff: "מוּזִיקָה, מָקוֹם פָּנוּי",
+      steps: [
+        "מִישֶׁהוּ אֶחָד עוֹצֵר אֶת הַמּוּזִיקָה בְּהַפְתָּעָה.",
+        "כְּשֶׁהִיא נֶעֱצֶרֶת — אָסוּר לָזוּז. מִי שֶׁזָּז יוֹצֵא.",
+        "בְּכָל פַּעַם רוֹקְדִים אַחֶרֶת: כְּמוֹ רוֹבּוֹט, כְּמוֹ דָּג, כְּמוֹ עָנָק."
+      ],
+      twist: "כְּשֶׁקּוֹפְאִים, צָרִיךְ לִהְיוֹת עַל רֶגֶל אַחַת."
+    },
+    {
+      t: "רִקּוּד הַצְּבָעִים", e: "🎨", cat: "רִקּוּד", time: 20, mess: 1, age: "4+", tint: "var(--butter)",
+      line: "לְכָל צֶבַע יֵשׁ תְּנוּעָה. מִי שֶׁקּוֹרֵא צֶבַע — כֻּלָּם זָזִים.",
+      stuff: "מוּזִיקָה, 4 חֲפָצִים בִּצְבָעִים שׁוֹנִים",
+      steps: [
+        "אָדֹם זֶה קְפִיצָה. כָּחֹל זֶה סִבְסוּב. צָהֹב זֶה כַּפַּיִם. יָרֹק זֶה הַלִיכָה אִטִּית.",
+        "שִׂימִי אֶת הַחֲפָצִים עַל הָרִצְפָּה, רָחוֹק אֶחָד מֵהַשֵּׁנִי.",
+        "מִישֶׁהוּ מַרְאֶה עַל חֵפֶץ, וְכֻלָּם עוֹשִׂים אֶת הַתְּנוּעָה שֶׁלּוֹ."
+      ],
+      twist: "שְׁנֵי צְבָעִים בְּיַחַד. עַכְשָׁו צָרִיךְ שְׁתֵּי תְּנוּעוֹת בְּאוֹתוֹ זְמַן."
+    },
+    {
+      t: "רִקּוּד שֶׁל 4 תְּנוּעוֹת", e: "💃", cat: "רִקּוּד", time: 30, mess: 1, age: "5+", tint: "var(--blush)",
+      line: "מַמְצִיאָה רִקּוּד קָצָר, מְלַמֶּדֶת אוֹתוֹ, וּמִצְטַלֶּמֶת.",
+      stuff: "שִׁיר שֶׁאַתְּ אוֹהֶבֶת, טֶלֶפוֹן",
+      steps: [
+        "בַּחֲרִי שִׁיר, וְתַמְצִיאִי 4 תְּנוּעוֹת. רַק 4.",
+        "תַּרְגְּלִי 3 פְּעָמִים לְאַט, וְאָז פַּעַם אַחַת מַהֵר.",
+        "לַמְּדִי אֶת הָרִקּוּד לְמִישֶׁהוּ בַּבַּיִת, וְתִצְטַלְּמוּ רוֹקְדִים בְּיַחַד."
+      ],
+      twist: "תְּנוּעָה חֲמִישִׁית סוֹדִית, שֶׁעוֹשִׂים רַק כְּשֶׁהַמִּלָּה חוֹזֶרֶת בַּשִּׁיר."
+    },
+    {
+      t: "קַרְיוֹקִי בַּסָּלוֹן", e: "🎤", cat: "שִׁירָה", time: 25, mess: 1, age: "4+", tint: "var(--lilac)",
+      line: "מִיקְרוֹפוֹן מִגְּלִיל נְיָר, בָּמָה עַל הַשָּׁטִיחַ, וְקָהָל שֶׁמּוֹחֵא כַּפַּיִם.",
+      stuff: "גְּלִיל נְיָר טוּאָלֶט, טוּשִׁים, מוּזִיקָה",
+      steps: [
+        "צַבְעִי גְּלִיל נְיָר בְּטוּשִׁים. זֶה הַמִּיקְרוֹפוֹן.",
+        "כָּל אֶחָד בּוֹחֵר שִׁיר, אוֹמֵר אֶת הַשֵּׁם שֶׁלּוֹ בְּקוֹל, וְשָׁר.",
+        "הַקָּהָל נוֹתֵן צִיּוּן עַל שְׁנֵי דְּבָרִים: כַּמָּה מַצְחִיק, וְכַמָּה יָפֶה."
+      ],
+      twist: "דּוּאֵט: אַחַת שָׁרָה אֶת הַמִּלִּים, וְהַשְּׁנִיָּה רַק מְזַמְזֶמֶת."
+    },
+    {
+      t: "שִׁיר עַל הַיּוֹם שֶׁלִּי", e: "🎵", cat: "שִׁירָה", time: 20, mess: 1, age: "5+", tint: "var(--mint)",
+      line: "לוֹקַחַת מַנְגִּינָה שֶׁאַתְּ מַכִּירָה, וְשָׂמָה בָּהּ מִלִּים חֲדָשׁוֹת.",
+      stuff: "דַּף, עִפָּרוֹן",
+      steps: [
+        "בַּחֲרִי שִׁיר שֶׁכֻּלָּם יוֹדְעִים לָשִׁיר.",
+        "כִּתְבִי 4 שׁוּרוֹת עַל הַיּוֹם שֶׁלָּךְ: מַשֶּׁהוּ מַצְחִיק, מַשֶּׁהוּ מְשַׁעֲמֵם, מַשֶּׁהוּ חָדָשׁ.",
+        "שִׁירִי אֶת הַשִּׁיר, וְתַקְלִיטִי אוֹתוֹ בַּטֶּלֶפוֹן."
+      ],
+      twist: "שַׁלְחִי אֶת הַהַקְלָטָה לְסַבְתָּא."
+    },
+    {
+      t: "שִׁיר בְּקוֹל אַחֵר", e: "🎼", cat: "שִׁירָה", time: 15, mess: 1, age: "5+", tint: "var(--sky)",
+      line: "אוֹתוֹ שִׁיר, 5 פְּעָמִים, וּבְכָל פַּעַם בְּקוֹל אַחֵר לְגַמְרֵי.",
+      stuff: "רַק הַקּוֹל שֶׁלָּךְ",
+      steps: [
+        "כִּתְבִי עַל 5 פִּתְקִים: אוֹפֶּרָה, לוֹחֵשׁ, רָאפּ, בּוֹכֶה, זָקֵן מְאוֹד.",
+        "שִׁלְפִי פֶּתֶק וְשִׁירִי בַּקּוֹל שֶׁיָּצָא.",
+        "הַשְּׁאָר מְנַחֲשִׁים אֵיזֶה פֶּתֶק זֶה הָיָה."
+      ],
+      twist: "מַחְלִיפִים קוֹל בְּאֶמְצַע הַשִּׁיר, כְּשֶׁמִּישֶׁהוּ מוֹחֵא כַּף."
+    },
+    {
+      t: "אֹהֶל שֶׁל סְפָרִים", e: "⛺", cat: "קְרִיאָה", time: 45, mess: 2, age: "3+", tint: "var(--mint)",
+      line: "בּוֹנָה אֹהֶל מִשְּׂמִיכָה, מַכְנִיסָה פָּנָס וּסְפָרִים, וְנִשְׁאֶרֶת בִּפְנִים.",
+      stuff: "שְׂמִיכָה, כִּסְאוֹת, פָּנָס, סְפָרִים, כָּרִיּוֹת",
+      steps: [
+        "מִתְחִי שְׂמִיכָה בֵּין שְׁנֵי כִּסְאוֹת, וְשִׂימִי סְפָרִים כְּבֵדִים עַל הַקְּצָווֹת.",
+        "הַכְנִיסִי פְּנִימָה כָּרִיּוֹת, פָּנָס, וְ-3 סְפָרִים.",
+        "קִרְאִי בַּשֶּׁקֶט לְעַצְמְךָ, וְאָז בְּקוֹל רָם לְמִי שֶׁבָּא לְבַקֵּר."
+      ],
+      twist: "כַּרְטִיס כְּנִיסָה: מִי שֶׁרוֹצֶה לְהִכָּנֵס אוֹמֵר מִשְׁפָּט מִסֵּפֶר שֶׁהוּא אוֹהֵב."
+    },
+    {
+      t: "הַסֵּפֶר שֶׁאֲנִי כּוֹתֶבֶת", e: "📖", cat: "קְרִיאָה", time: 45, mess: 1, age: "5+", tint: "var(--butter)",
+      line: "מְקַפֶּלֶת דַּפִּים לְסֵפֶר קָטָן, וְכוֹתֶבֶת בּוֹ סִפּוּר.",
+      stuff: "4 דַּפִּים, סֶלוֹטֵייפּ, טוּשִׁים",
+      steps: [
+        "קַפְּלִי 4 דַּפִּים לְחֵצִי, וְחַבְּרִי אוֹתָם בָּאֶמְצַע. קִבַּלְתְּ סֵפֶר שֶׁל 8 עַמּוּדִים.",
+        "בָּעַמּוּד הָרִאשׁוֹן כִּתְבִי שֵׁם לַסֵּפֶר, וְאֶת הַשֵּׁם שֶׁלָּךְ.",
+        "בְּכָל עַמּוּד — צִיּוּר אֶחָד וּמִשְׁפָּט אֶחָד. בַּסּוֹף קִרְאִי אֶת הַסֵּפֶר בְּקוֹל."
+      ],
+      twist: "סֵפֶר עַל מִישֶׁהוּ אֲמִתִּי בַּבַּיִת, עִם דָּבָר מַצְחִיק שֶׁקָּרָה לוֹ."
+    },
+    {
+      t: "קוֹלוֹת שֶׁל סִפּוּר", e: "🗣️", cat: "קְרִיאָה", time: 20, mess: 1, age: "4+", tint: "var(--blush)",
+      line: "קוֹרְאִים סֵפֶר, אֲבָל לְכָל דְּמוּת יֵשׁ קוֹל אַחֵר.",
+      stuff: "סֵפֶר אֶחָד",
+      steps: [
+        "בַּחֲרוּ סֵפֶר, וְתַחְלִיטוּ אֵיךְ נִשְׁמָע כָּל אֶחָד: דַּק, עָבֶה, מָהִיר, נוֹחֵר.",
+        "קִרְאוּ בְּקוֹל, וְתַחְלִיפוּ תַּפְקִידִים בְּכָל עַמּוּד.",
+        "בַּסּוֹף בַּחֲרוּ אֶת הַקּוֹל שֶׁהִצְחִיק הֲכִי הַרְבֵּה, וְעֲשׂוּ אוֹתוֹ שׁוּב."
+      ],
+      twist: "תַּקְלִיטוּ אֶת הַסֵּפֶר, וְתַאֲזִינוּ לוֹ לִפְנֵי הַשֵּׁנָה."
+    },
+    {
+      t: "צַיָּד הָאוֹתִיּוֹת", e: "🔤", cat: "קְרִיאָה", time: 15, mess: 1, age: "4+", tint: "var(--sky)",
+      line: "בּוֹחֶרֶת אוֹת אַחַת, וְרָצָה לִמְצֹא אוֹתָהּ בְּכָל הַבַּיִת.",
+      stuff: "דַּף, עִפָּרוֹן",
+      steps: [
+        "בַּחֲרִי אוֹת. לְמָשָׁל ק.",
+        "חַפְּשִׂי בַּבַּיִת מִלִּים שֶׁמַּתְחִילוֹת בָּאוֹת: עַל אֲרִיזוֹת, עַל סְפָרִים, עַל שְׁלָטִים.",
+        "כִּתְבִי כָּל מִלָּה שֶׁמָּצָאת. 10 מִלִּים — נִצַּחְתְּ."
+      ],
+      twist: "מָצָאת מִלָּה שֶׁאַתְּ לֹא מַכִּירָה? חַפְּשׂוּ בְּיַחַד מָה הִיא אוֹמֶרֶת."
+    },
+    {
+      t: "מוּזֵיאוֹן בַּסָּלוֹן", e: "🖼️", cat: "דִּמְיוֹן", time: 30, mess: 1, age: "4+", tint: "var(--lilac)",
+      line: "אוֹסֶפֶת חֲפָצִים מֵהַבַּיִת, מְסַדֶּרֶת תַּעֲרוּכָה, וּמַעֲבִירָה סִיּוּר.",
+      stuff: "פִּתְקִים, טוּשׁ, 5 חֲפָצִים",
+      steps: [
+        "אִסְפִי 5 חֲפָצִים מְעַנְיְנִים מֵהַבַּיִת.",
+        "סַדְּרִי אוֹתָם עַל שֻׁלְחָן, עִם רֶוַח בֵּין אֶחָד לַשֵּׁנִי.",
+        "לְכָל חֵפֶץ כִּתְבִי פֶּתֶק: אֵיךְ קוֹרְאִים לוֹ, וּמָה הַסִּפּוּר שֶׁלּוֹ. מֻתָּר לְהַמְצִיא."
+      ],
+      twist: "מוּזֵיאוֹן שֶׁל דָּבָר אֶחָד: רַק מִכְסִים, אוֹ רַק כַּפְתּוֹרִים."
+    },
+    {
+      t: "חַיּוֹת מִצְּלָלִים", e: "🔦", cat: "דִּמְיוֹן", time: 20, mess: 1, age: "3+", tint: "var(--sky)",
+      line: "פָּנָס, קִיר חָשׁוּךְ, וְיָדַיִם שֶׁהוֹפְכוֹת לְחַיּוֹת.",
+      stuff: "פָּנָס, קִיר חָלָק",
+      steps: [
+        "כַּבּוּ אֶת הָאוֹר, וְהַדְלִיקוּ פָּנָס אֶל קִיר רֵיק.",
+        "עֲשִׂי בַּיָּדַיִם חַיָּה: כֶּלֶב, צִפּוֹר, תַּנִּין. מִישֶׁהוּ מְנַחֵשׁ.",
+        "הוֹסִיפִי חֲפָצִים. מַסְרֵק הוֹפֵךְ לְגָדֵר, כּוֹס הוֹפֶכֶת לְמִגְדָּל."
+      ],
+      twist: "הַצָּגָה שְׁלֵמָה שֶׁל צְלָלִים, עִם סִפּוּר קָצָר."
+    },
+    {
+      t: "תֵּיאַטְרוֹן גַּרְבַּיִם", e: "🧦", cat: "הַצָּגוֹת", time: 45, mess: 1, age: "4+", tint: "var(--peach)",
+      line: "גֶּרֶב בְּלִי זוּג הוֹפֶכֶת לְשַׂחְקָנִית, וְהַסַּפָּה הוֹפֶכֶת לְבָמָה.",
+      stuff: "גַּרְבַּיִם בְּלִי זוּג, גּוּמִיּוֹת, פִּתְקִים, טוּשִׁים",
+      steps: [
+        "צַיְּרִי פָּנִים עַל פֶּתֶק דָּבִיק, וְהַדְבִּיקִי אוֹתוֹ עַל הַגֶּרֶב.",
+        "תְּנִי לְכָל בֻּבָּה שֵׁם וּתְכוּנָה אַחַת: פַּחְדָנִית, רְעֵבָה, אוֹ מְדַבֶּרֶת רַק בְּשִׁירִים.",
+        "מִתְחוּ שְׂמִיכָה בֵּין שְׁנֵי כִּסְאוֹת. זוֹ הַבָּמָה. עַכְשָׁו הַצִּיגוּ."
+      ],
+      twist: "הַקָּהָל צוֹעֵק מִלָּה בָּאֶמְצַע, וְהַהַצָּגָה חַיֶּבֶת לְהַכְנִיס אוֹתָהּ."
+    },
+    {
+      t: "סִפּוּר מִתְגַּלְגֵּל", e: "🎲", cat: "סִפּוּרִים", time: 15, mess: 1, age: "5+", tint: "var(--butter)",
+      line: "הַקֻּבִּיָּה מַחְלִיטָה אֵיזוֹ מִלָּה נִכְנֶסֶת לַמִּשְׁפָּט הַבָּא.",
+      stuff: "קֻבִּיָּה, דַּף, עִפָּרוֹן",
+      steps: [
+        "כִּתְבִי 6 מִלִּים מוּזָרוֹת, וּמַסְפְּרִי אוֹתָן: מְקָרֵר, דְּרָקוֹן, גֶּרֶב, גְּלִידָה, מִנְהָרָה, פְּרוֹפֶסוֹר.",
+        "גַּלְגְּלִי קֻבִּיָּה, וְתַגִּידִי מִשְׁפָּט אֶחָד עִם הַמִּלָּה שֶׁיָּצְאָה.",
+        "עַכְשָׁו תּוֹר שֶׁל מִישֶׁהוּ אַחֵר. כָּל אֶחָד מוֹסִיף מִשְׁפָּט אֶחָד."
+      ],
+      twist: "תַּקְלִיטוּ בַּטֶּלֶפוֹן. כְּשֶׁשּׁוֹמְעִים אֶת זֶה שׁוּב, זֶה מַצְחִיק פִּי שְׁתַּיִם."
+    },
+    {
+      t: "צִיּוּר לְפִי מוּזִיקָה", e: "🎧", cat: "יְצִירָה", time: 20, mess: 1, age: "3+", tint: "var(--lilac)",
+      line: "כָּל שִׁיר מְקַבֵּל דַּף. מָה שֶׁהָאֹזֶן שׁוֹמַעַת, הַיָּד מְצַיֶּרֶת.",
+      stuff: "דַּפִּים, טוּשִׁים, מוּזִיקָה",
+      steps: [
+        "בַּחֲרִי 3 שִׁירִים שׁוֹנִים: אֶחָד שָׁקֵט, אֶחָד קִצְבִּי, אֶחָד מַצְחִיק.",
+        "הַפְעִילִי אֶת הָרִאשׁוֹן, וְצַיְּרִי בְּלִי לַחְשֹׁב. רַק קַוִּים וּצְבָעִים.",
+        "כָּל שִׁיר חָדָשׁ — דַּף חָדָשׁ. בַּסּוֹף שִׂימִי אֶת 3 הַדַּפִּים בְּשׁוּרָה."
+      ],
+      twist: "הַחְלִיפוּ דַּפִּים בְּאֶמְצַע הַשִּׁיר, וְכָל אַחַת מַמְשִׁיכָה אֶת הַצִּיּוּר שֶׁל הַשְּׁנִיָּה."
+    },
+    {
+      t: "מְצַיְּרִים בְּלִי לִרְאוֹת", e: "✏️", cat: "יְצִירָה", time: 15, mess: 1, age: "6+", tint: "var(--sky)",
+      line: "אַחַת מְסַפֶּרֶת בְּמִלִּים מָה יֵשׁ בַּצִּיּוּר, וְהַשְּׁנִיָּה מְצַיֶּרֶת.",
+      stuff: "2 דַּפִּים, 2 עֶפְרוֹנוֹת",
+      steps: [
+        "צַיְּרִי בְּסֵתֶר צִיּוּר פָּשׁוּט: בַּיִת, פַּרְצוּף, אוֹ רוֹבּוֹט.",
+        "סַפְּרִי בְּמִלִּים מָה יֵשׁ בַּצִּיּוּר, אֲבָל בְּלִי לְגַלּוֹת מָה זֶה.",
+        "הַשְׁווּ אֶת שְׁנֵי הַצִּיּוּרִים, וְתַחְלִיפוּ תַּפְקִידִים."
+      ],
+      twist: "בַּפַּעַם הַשְּׁנִיָּה מֻתָּר לִשְׁאֹל שְׁאֵלוֹת. תִּרְאוּ כַּמָּה זֶה עוֹזֵר."
+    },
+    {
+      t: "מַסְלוּל שֶׁל כָּרִיּוֹת", e: "🛋️", cat: "תְּנוּעָה", time: 25, mess: 2, age: "3+", tint: "var(--mint)",
+      line: "כָּרִיּוֹת, כִּסְאוֹת וּשְׂמִיכוֹת הוֹפְכִים אֶת הַסָּלוֹן לְמַסְלוּל.",
+      stuff: "כָּרִיּוֹת, כִּסְאוֹת, שְׂמִיכָה, שְׁעוֹן",
+      steps: [
+        "בְּנוּ מַסְלוּל: לִזְחֹל מִתַּחַת לְכִסֵּא, לְדַלֵּג בֵּין כָּרִיּוֹת, לְהִסְתּוֹבֵב 3 פְּעָמִים.",
+        "מַדְדוּ זְמַן בַּשָּׁעוֹן. הַפַּעַם הָרִאשׁוֹנָה הִיא הַשִּׂיא שֶׁצָּרִיךְ לִשְׁבֹּר.",
+        "כָּל אֶחָד מוֹסִיף תַּחֲנָה חֲדָשָׁה. בַּסּוֹף עוֹשִׂים סִבּוּב אָחוֹרָה, וְזֶה גַּם הַסִּדּוּר."
+      ],
+      twist: "מַסְלוּל עִם כּוֹס מַיִם בַּיָּד. נִשְׁפַּךְ? חוֹזְרִים לַהַתְחָלָה."
+    },
+    {
+      t: "הָרִצְפָּה זֶה לַבָּה", e: "🌋", cat: "תְּנוּעָה", time: 15, mess: 1, age: "4+", tint: "var(--peach)",
+      line: "מֻתָּר לִדְרֹךְ רַק עַל הָאֲבָנִים. בְּכָל פַּעַם אַחַת נֶעֱלֶמֶת.",
+      stuff: "מַגָּבוֹת אוֹ עִתּוֹנִים",
+      steps: [
+        "פִּרְשׂוּ 8 מַגָּבוֹת עַל הָרִצְפָּה. אֵלֶּה הָאֲבָנִים.",
+        "זָזִים בַּחֶדֶר רַק דֶּרֶךְ הָאֲבָנִים. מִי שֶׁנּוֹגֵעַ בָּרִצְפָּה יוֹצֵא.",
+        "אַחֲרֵי כָּל סִבּוּב מוֹרִידִים אֶבֶן. מִי שֶׁנִּשְׁאַר בַּסּוֹף — נִצַּח."
+      ],
+      twist: "אֶפְשָׁר לְהַצִּיל חָבֵר: אִם אַתְּ מַחְזִיקָה לוֹ יָד, הוּא נִשְׁאָר בַּמִּשְׂחָק."
+    },
+    {
+      t: "חֶדֶר בְּרִיחָה בַּבַּיִת", e: "🗝️", cat: "חֲשִׁיבָה", time: 45, mess: 1, age: "7+", tint: "var(--lilac)",
+      line: "5 פִּתְקִים, כָּל אֶחָד מוֹבִיל לַבָּא, וּבַסּוֹף מְחַכֶּה פְּרָס.",
+      stuff: "5 פִּתְקִים, טוּשׁ, פְּרָס קָטָן",
+      steps: [
+        "הַחְבִּיאִי פְּרָס קָטָן: חָטִיף, מַדְבֵּקָה, אוֹ פֶּתֶק עִם הַבְטָחָה.",
+        "כִּתְבִי 5 חִידוֹת. כָּל חִידָה אוֹמֶרֶת אֵיפֹה מִתְחַבֵּאת הַחִידָה הַבָּאָה.",
+        "תְּנִי אֶת הַפֶּתֶק הָרִאשׁוֹן לְמִישֶׁהוּ, וּמַדְדִי לוֹ זְמַן."
+      ],
+      twist: "10 דַּקּוֹת בִּלְבַד, וּמֻתָּר לְבַקֵּשׁ רַק 2 רְמָזִים."
+    },
+    {
+      t: "מִגְדַּל קְלָפִים", e: "🃏", cat: "בְּנִיָּה", time: 20, mess: 1, age: "6+", tint: "var(--butter)",
+      line: "חֲבִילַת קְלָפִים אַחַת, וְכָל הַסַּבְלָנוּת שֶׁיֵּשׁ לָךְ.",
+      stuff: "חֲבִילַת קְלָפִים",
+      steps: [
+        "הַשְׁעִינִי שְׁנֵי קְלָפִים אֶחָד עַל הַשֵּׁנִי, כְּמוֹ אֹהֶל קָטָן.",
+        "עֲשִׂי עוֹד אֹהָלִים בְּשׁוּרָה, שִׂימִי קְלָף שָׁכוּב מֵעֲלֵיהֶם, וּבְנִי קוֹמָה נוֹסֶפֶת.",
+        "סַפְּרִי לְכַמָּה קוֹמוֹת הִגַּעְתְּ, וְאָז הַפִּילִי אֶת הַכֹּל בְּכַוָּנָה."
+      ],
+      twist: "תַּחֲרוּת: אַחַת בּוֹנָה בִּשְׁתֵּי יָדַיִם, וְאַחַת בְּיָד אַחַת."
+    },
+    {
+      t: "גֶּשֶׁר שֶׁמַּחְזִיק סְפָרִים", e: "🌉", cat: "בְּנִיָּה", time: 30, mess: 2, age: "6+", tint: "var(--sky)",
+      line: "קַשִּׁיּוֹת וּנְיָר דֶּבֶק נֶגֶד סֵפֶר כָּבֵד. מִי יִנְצַח?",
+      stuff: "קַשִּׁיּוֹת אוֹ מַקְלוֹנִים, נְיָר דֶּבֶק, סְפָרִים",
+      steps: [
+        "שִׂימִי שְׁנֵי סְפָרִים בְּמֶרְחָק שֶׁל כְּמוֹ שְׁתֵּי כַּפּוֹת יָד.",
+        "בְּנִי גֶּשֶׁר מִקַּשִּׁיּוֹת וּנְיָר דֶּבֶק, שֶׁיְחַבֵּר בֵּינֵיהֶם.",
+        "שִׂימִי סֵפֶר קָטָן עַל הַגֶּשֶׁר. הֶחְזִיק? שִׂימִי עוֹד אֶחָד."
+      ],
+      twist: "הַרְחִיקִי אֶת הַסְּפָרִים פִּי שְׁתַּיִם, וְנַסִּי שׁוּב."
+    },
+    {
+      t: "אוֹלִימְפְּיָאדַת גַּרְבַּיִם", e: "🥇", cat: "תְּנוּעָה", time: 25, mess: 1, age: "3+", tint: "var(--blush)",
+      line: "כַּדּוּרִים מִגַּרְבַּיִם, סַל, וּמֶדַלְיָה מִנְּיָר.",
+      stuff: "גַּרְבַּיִם, סַל אוֹ קְעָרָה, דַּף",
+      steps: [
+        "גַּלְגְּלִי 6 גַּרְבַּיִם לְכַדּוּרִים, וְסַמְּנִי קַו זְרִיקָה בִּנְיָר דֶּבֶק.",
+        "שַׂחְקוּ 3 מִשְׂחָקִים: זְרִיקָה לַסַּל, זְרִיקָה רָחוֹק, וּזְרִיקָה בְּעֵינַיִם עֲצוּמוֹת.",
+        "צַיְּרוּ מֶדַלְיוֹת מִנְּיָר, וְעֲשׂוּ טֶקֶס עִם שִׁיר שֶׁהִמְצֵאתֶם."
+      ],
+      twist: "זְרִיקָה מִבֵּין הָרַגְלַיִם, כְּשֶׁהַגַּב אֶל הַסַּל."
+    },
+    {
+      t: "מָה נֶעֱלַם", e: "🔍", cat: "חֲשִׁיבָה", time: 10, mess: 1, age: "4+", tint: "var(--mint)",
+      line: "10 חֲפָצִים, 30 שְׁנִיּוֹת לִזְכֹּר, וְאֶחָד נֶעֱלָם.",
+      stuff: "מַגָּשׁ, מַגֶּבֶת, 10 חֲפָצִים קְטַנִּים",
+      steps: [
+        "סַדְּרוּ 10 חֲפָצִים קְטַנִּים עַל מַגָּשׁ, וְתִסְתַּכְּלוּ עֲלֵיהֶם 30 שְׁנִיּוֹת בְּשֶׁקֶט.",
+        "כַּסּוּ בְּמַגֶּבֶת, וּמִישֶׁהוּ מוֹצִיא חֵפֶץ אֶחָד בְּלִי שֶׁתִּרְאוּ.",
+        "גַּלּוּ אֶת הַמַּגָּשׁ. מִי שֶׁאוֹמֵר רִאשׁוֹן מָה נֶעֱלַם — מְקַבֵּל נְקֻדָּה."
+      ],
+      twist: "בִּמְקוֹם לְהוֹצִיא חֵפֶץ, מַזִּיזִים שְׁנַיִם. זֶה הַרְבֵּה יוֹתֵר קָשֶׁה."
+    },
+    {
+      t: "מַפַּת הָאוֹצָר", e: "🗺️", cat: "דִּמְיוֹן", time: 30, mess: 1, age: "5+", tint: "var(--butter)",
+      line: "מְצַיֶּרֶת אֶת הַבַּיִת מִלְמַעְלָה, וּמַחְבִּיאָה אוֹצָר עִם X.",
+      stuff: "דַּף, עֶפְרוֹנוֹת, חֵפֶץ לְהַחְבִּיא",
+      steps: [
+        "צַיְּרִי אֶת הַבַּיִת כְּמוֹ שֶׁצִּפּוֹר רוֹאָה אוֹתוֹ: חֲדָרִים, דְּלָתוֹת, סַפָּה, מִטּוֹת.",
+        "תְּנִי לַחֲדָרִים שֵׁמוֹת שֶׁל אִי: יַעַר הַכֻּרְסָה, מִפְרַץ הַמְּקָרֵר.",
+        "הַחְבִּיאִי חֵפֶץ, סַמְּנִי X, וְתֵנִי אֶת הַמַּפָּה לְמִישֶׁהוּ שֶׁיְּחַפֵּשׂ."
+      ],
+      twist: "צַבְעִי אֶת הַדַּף בְּקָפֶה קַר, כְּדֵי שֶׁהַמַּפָּה תֵּרָאֶה יְשָׁנָה מְאוֹד."
+    },
+    {
+      t: "רַדְיוֹ הַבַּיִת", e: "🎙️", cat: "הַצָּגוֹת", time: 30, mess: 1, age: "6+", tint: "var(--lilac)",
+      line: "מַקְלִיטִים תָּכְנִית רַדְיוֹ: חֲדָשׁוֹת, פִּרְסֹמֶת, וְשִׁיר.",
+      stuff: "טֶלֶפוֹן, דַּף",
+      steps: [
+        "כִּתְבוּ מָה יִהְיֶה בַּתָּכְנִית: פְּתִיחָה, 2 חֲדָשׁוֹת מֵהַבַּיִת, פִּרְסֹמֶת מְמֻצֵּאת, שִׁיר, סִיּוּם.",
+        "חַלְּקוּ תַּפְקִידִים: מִי מַגִּישׁ, מִי כַּתָּב, מִי שָׁר.",
+        "הוֹסִיפוּ קוֹלוֹת בַּפֶּה — דֶּלֶת, גֶּשֶׁם, קָהָל — וְתַקְלִיטוּ בְּפַעַם אַחַת."
+      ],
+      twist: "שַׁדְּרוּ חַי לְסַבְתָּא בְּשִׂיחַת טֶלֶפוֹן."
+    },
+    {
+      t: "מַמְצִיאִים מִשְׂחַק קֻפְסָה", e: "🎯", cat: "חֲשִׁיבָה", time: 60, mess: 2, age: "7+", tint: "var(--peach)",
+      line: "לוּחַ מִדַּף, כַּפְתּוֹרִים בִּמְקוֹם פִּיּוֹנִים, וְחֻקִּים שֶׁאַתְּ קוֹבַעַת.",
+      stuff: "דַּף גָּדוֹל, טוּשִׁים, קֻבִּיָּה, כַּפְתּוֹרִים",
+      steps: [
+        "צַיְּרִי מַסְלוּל שֶׁל 30 מִשְׁבָּצוֹת, מֵהַהַתְחָלָה עַד הַסּוֹף.",
+        "סַמְּנִי 6 מִשְׁבָּצוֹת מְיֻחָדוֹת: קָדִימָה 3, אָחוֹרָה 2, תּוֹר נוֹסָף, מְשִׂימָה, הַחְלָפַת מָקוֹם, מְנוּחָה.",
+        "כִּתְבִי אֶת הַחֻקִּים בַּצַּד. שַׂחְקוּ סִבּוּב, וְתַקְנוּ כָּל חֹק מְשַׁעֲמֵם."
+      ],
+      twist: "הוֹסִיפוּ 10 קַלְפֵי מְשִׂימוֹת בְּמַעֲטָפָה."
+    },
+    {
+      t: "סֶרֶט מִתְמוּנוֹת", e: "🎬", cat: "יְצִירָה", time: 45, mess: 1, age: "7+", tint: "var(--sky)",
+      line: "צַעֲצוּעַ, טֶלֶפוֹן, וְ-30 תְּמוּנוֹת שֶׁהוֹפְכוֹת לְסֶרֶט.",
+      stuff: "טֶלֶפוֹן, צַעֲצוּעִים, סְפָרִים",
+      steps: [
+        "שִׂימִי אֶת הַטֶּלֶפוֹן עַל עֲרֵמַת סְפָרִים, כָּךְ שֶׁלֹּא יָזוּז בִּכְלָל.",
+        "צַלְּמִי אֶת הַצַּעֲצוּעַ, הַזִּיזִי אוֹתוֹ קְצָת מְאוֹד, וְצַלְּמִי שׁוּב.",
+        "חִזְרִי 30 פְּעָמִים, וְאָז הַעֲבִירִי אֶת הַתְּמוּנוֹת מַהֵר בַּגָּלֶרְיָה."
+      ],
+      twist: "טְרִיק קֶסֶם: הוֹצִיאִי אֶת הַצַּעֲצוּעַ בֵּין שְׁתֵּי תְּמוּנוֹת, וְהוּא נֶעֱלַם."
+    },
+    {
+      t: "צַיִד הַצְּבָעִים", e: "🌈", cat: "חֲשִׁיבָה", time: 15, mess: 1, age: "3+", tint: "var(--blush)",
+      line: "מוֹצֵאת בַּבַּיִת חֵפֶץ בְּכָל צֶבַע שֶׁל הַקֶּשֶׁת.",
+      stuff: "רַק הַבַּיִת",
+      steps: [
+        "הַצְּבָעִים הֵם: אָדֹם, כָּתֹם, צָהֹב, יָרֹק, כָּחֹל, סָגֹל, לָבָן.",
+        "רוּצִי בַּבַּיִת, וְהָבִיאִי חֵפֶץ קָטָן אֶחָד בְּכָל צֶבַע.",
+        "סַדְּרִי בְּשׁוּרָה לְפִי הַקֶּשֶׁת, צַלְּמִי מִלְמַעְלָה, וְהַחְזִירִי כָּל חֵפֶץ לַמָּקוֹם."
+      ],
+      twist: "רַק כָּחֹל: 5 חֲפָצִים כְּחֻלִּים, מֵהַבָּהִיר לַכָּהֶה."
+    },
+    {
+      t: "הַמִּלָּה הָאֲסוּרָה", e: "🚫", cat: "סִפּוּרִים", time: 15, mess: 1, age: "6+", tint: "var(--peach)",
+      line: "מַסְבִּירָה מִלָּה בְּלִי לְהַגִּיד אוֹתָהּ, וּבְלִי עוֹד 3 מִלִּים.",
+      stuff: "פִּתְקִים, טוּשׁ",
+      steps: [
+        "כָּל אֶחָד כּוֹתֵב 10 פִּתְקִים. בְּכָל פֶּתֶק מִלָּה אַחַת גְּדוֹלָה, וּמִתַּחַת 3 מִלִּים אֲסוּרוֹת.",
+        "עַרְבְּבוּ אֶת כָּל הַפִּתְקִים בִּקְעָרָה.",
+        "שִׁלְפִי פֶּתֶק, וְתַסְבִּירִי אֶת הַמִּלָּה בְּדַקָּה. בְּלִי לְהַגִּיד אוֹתָהּ."
+      ],
+      twist: "סִבּוּב אַחֲרוֹן: מַסְבִּירִים רַק בְּצִיּוּר, בְּלִי מִלִּים."
+    },
+    {
+      t: "הַמַּסָּע שֶׁל הַכַּדּוּר", e: "⚙️", cat: "בְּנִיָּה", time: 60, mess: 2, age: "6+", tint: "var(--mint)",
+      line: "גְּלִילִים, סְפָרִים וּנְיָר דֶּבֶק. וְכַדּוּר שֶׁעוֹשֶׂה דֶּרֶךְ אֲרֻכָּה.",
+      stuff: "גְּלִילֵי נְיָר, נְיָר דֶּבֶק, סְפָרִים, כַּדּוּר קָטָן",
+      steps: [
+        "חִצִּי גְּלִילִים לְאֹרֶךְ. אֵלֶּה יִהְיוּ הַמַּסְלוּלִים שֶׁהַכַּדּוּר גּוֹלֵשׁ בָּהֶם.",
+        "הַדְבִּיקִי אוֹתָם לַעֲרֵמַת סְפָרִים בְּשִׁפּוּעַ קָטָן, וְחַבְּרִי אֶחָד לַשֵּׁנִי.",
+        "הַמַּטָּרָה: שֶׁהַכַּדּוּר יִסַּע 10 שְׁנִיּוֹת בְּלִי לְהִתְעַכֵּב, וְיַפִּיל כּוֹס בַּסּוֹף."
+      ],
+      twist: "הוֹסִיפִי דּוֹמִינוֹ שֶׁדּוֹחֵף כַּדּוּר שֵׁנִי."
+    },
+    {
+      t: "אוֹרִיגָמִי בְּלִי מִסְפָּרַיִם", e: "📄", cat: "יְצִירָה", time: 20, mess: 1, age: "5+", tint: "var(--sky)",
+      line: "דַּף אֶחָד, כַּמָּה קִפּוּלִים, וְיֵשׁ לָךְ סִירָה.",
+      stuff: "דַּפִּים",
+      steps: [
+        "קַפְּלִי דַּף לְחֵצִי, וְאָז עוֹד פַּעַם לְחֵצִי. פִּתְחִי אֶת הַפִּנּוֹת לִמְשֻׁלָּשׁ.",
+        "קַפְּלִי אֶת הַשּׁוּלַיִם לְמַעְלָה מִשְּׁנֵי הַצְּדָדִים, וּמִשְׁכִי אֶת הַצְּדָדִים לַחוּץ.",
+        "עֲשִׂי 3 סִירוֹת בִּגְדָלִים שׁוֹנִים, וּבִדְקִי בִּקְעָרַת מַיִם מִי צָפָה יוֹתֵר זְמַן."
+      ],
+      twist: "מְטוֹסֵי נְיָר: 3 דְּגָמִים, וְתַחֲרוּת מִי עָף רָחוֹק יוֹתֵר בַּמִּסְדְּרוֹן."
+    },
+    {
+      t: "תִּזְמֹרֶת מֵהַמִּטְבָּח", e: "🥁", cat: "שִׁירָה", time: 25, mess: 2, age: "3+", tint: "var(--butter)",
+      line: "קֻפְסָאוֹת, אֹרֶז וְסִירִים הוֹפְכִים לִכְלֵי נְגִינָה.",
+      stuff: "קֻפְסָאוֹת סְגוּרוֹת, אֹרֶז, כַּפּוֹת, סִירִים",
+      steps: [
+        "כָּל אֶחָד בּוֹנֶה כְּלִי אֶחָד: קֻפְסָה עִם אֹרֶז, סִיר הָפוּךְ כְּמוֹ תֹּף, כּוֹסוֹת עִם מַיִם.",
+        "בַּחֲרוּ מְנַצֵּחַ. יָד לְמַעְלָה זֶה חָזָק, יָד לְמַטָּה זֶה שֶׁקֶט, אֶגְרוֹף זֶה עֶצֶר.",
+        "נַגְּנוּ שִׁיר מוּכָּר רַק בַּקֶּצֶב, בְּלִי מִלִּים. מִי מְנַחֵשׁ אֵיזֶה שִׁיר?"
+      ],
+      twist: "הַקְלִיטִי כְּלִי אַחַר כְּלִי בַּטֶּלֶפוֹן. יוֹצֵאת תִּזְמֹרֶת שֶׁל אָדָם אֶחָד."
+    },
+    {
+      t: "בֵּית הַקָּפֶה שֶׁל קָאִי", e: "☕", cat: "הַצָּגוֹת", time: 40, mess: 2, age: "4+", tint: "var(--blush)",
+      line: "תַּפְרִיט מְצֻיָּר, מֶלְצָר עִם מַגָּשׁ, וְלָקוֹחַ שֶׁמַּזְמִין בֶּאֱמֶת.",
+      stuff: "דַּף, מַגָּשׁ, פִּתְקִים, אֹכֶל שֶׁיֵּשׁ בַּבַּיִת",
+      steps: [
+        "צַיְּרִי תַּפְרִיט עִם 5 מָנוֹת וּמְחִירִים. מָנוֹת אֲמִתִּיּוֹת, כְּמוֹ כָּרִיךְ אוֹ פְּרִי חָתוּךְ.",
+        "סַדְּרִי שֻׁלְחָן אֶחָד עִם מַפִּית מְקֻפֶּלֶת וּפֶתֶק: שֻׁלְחָן 1.",
+        "קַבְּלִי הַזְמָנָה בְּפֶתֶק, הַגִּישִׁי עַל מַגָּשׁ, וּבַסּוֹף הָבִיאִי חֶשְׁבּוֹן מְצֻיָּר."
+      ],
+      twist: "לָקוֹחַ מְעַצְבֵּן: מַחְלִיף הַזְמָנָה 3 פְּעָמִים וּמְבַקֵּשׁ הַכֹּל בְּלִי מֶלַח."
+    },
+    {
+      t: "יוֹמַן הַהַמְצָאוֹת", e: "💡", cat: "חֲשִׁיבָה", time: 30, mess: 1, age: "6+", tint: "var(--lilac)",
+      line: "מוֹצֵאת בְּעָיָה קְטַנָּה בַּבַּיִת, וּמַמְצִיאָה מַשֶּׁהוּ שֶׁפּוֹתֵר אוֹתָהּ.",
+      stuff: "מַחְבֶּרֶת, עֶפְרוֹנוֹת",
+      steps: [
+        "חַפְּשִׂי בְּעָיָה אֲמִתִּית: הַגַּרְבַּיִם נֶעֱלָמוֹת, הַדֶּלֶת נִטְרֶקֶת, קָשֶׁה לְהַגִּיעַ לַמַּדָּף.",
+        "צַיְּרִי אֶת הַהַמְצָאָה, וְתֵנִי שֵׁם לְכָל חֵלֶק שֶׁלָּהּ.",
+        "הַצִּיגִי אֶת הַהַמְצָאָה לַבַּיִת, וְתַעֲנִי עַל 2 שְׁאֵלוֹת."
+      ],
+      twist: "בְּנִי דֶּגֶם מִקַּרְטוֹן. הוּא לֹא חַיָּב לַעֲבֹד, רַק לְהַרְאוֹת אֵיךְ זֶה נִרְאֶה."
+    },
+    {
+      t: "קֶשֶׁת עַל הַקִּיר", e: "💧", cat: "מַדָּע", time: 10, mess: 1, age: "4+", tint: "var(--sky)",
+      line: "כּוֹס מַיִם וְשֶׁמֶשׁ מַסְפִּיקִים כְּדֵי לַעֲשׂוֹת קֶשֶׁת אֲמִתִּית.",
+      stuff: "כּוֹס זְכוּכִית עִם מַיִם, דַּף לָבָן, שֶׁמֶשׁ",
+      steps: [
+        "שִׂימִי כּוֹס מַיִם מְלֵאָה עַל שֻׁלְחָן שֶׁהַשֶּׁמֶשׁ נִכְנֶסֶת אֵלָיו.",
+        "שִׂימִי דַּף לָבָן מִצַּד אֶחָד שֶׁל הַכּוֹס.",
+        "הַזִּיזִי אֶת הַכּוֹס לְאַט, עַד שֶׁעַל הַדַּף יוֹפִיעוּ פַּסִּים שֶׁל צְבָעִים."
+      ],
+      twist: "נַסִּי גַּם עִם פָּנָס בַּחֶדֶר חָשׁוּךְ. עוֹבֵד גַּם?"
+    },
+    {
+      t: "מִי צָף וּמִי שׁוֹקֵעַ", e: "🍊", cat: "מַדָּע", time: 20, mess: 2, age: "4+", tint: "var(--mint)",
+      line: "קְעָרַת מַיִם, 6 חֲפָצִים, וְנִחוּשׁ לִפְנֵי כָּל אֶחָד.",
+      stuff: "קְעָרָה עִם מַיִם, תַּפּוּז, מַפְתֵּחַ, פְּקָק, אֶבֶן, כַּפְתּוֹר, מַקְלוֹן",
+      steps: [
+        "לִפְנֵי כָּל חֵפֶץ נַחֲשִׁי בְּקוֹל: יִצְוּף אוֹ יִשְׁקַע? כִּתְבִי אֶת הַנִּחוּשׁ.",
+        "הַכְנִיסִי אֶת הַחֵפֶץ לַמַּיִם, וּבִדְקִי מִי צָדַק.",
+        "עַכְשָׁו קַלְּפִי אֶת הַתַּפּוּז וְהַכְנִיסִי שׁוּב. הַפַּעַם הוּא שׁוֹקֵעַ, כִּי בַּקְּלִיפָּה יֵשׁ אֲוִיר."
+      ],
+      twist: "שִׂימִי בַּמַּיִם הַרְבֵּה מֶלַח, וְנַסִּי שׁוּב. פִּתְאוֹם דְּבָרִים כְּבֵדִים צָפִים, בְּדִיּוּק כְּמוֹ בְּיָם הַמֶּלַח."
+    },
+    {
+      t: "גַּלִּים בְּבַקְבּוּק", e: "🌊", cat: "מַדָּע", time: 15, mess: 2, age: "4+", tint: "var(--sky)",
+      line: "בּוֹנָה יָם קָטָן בְּתוֹךְ בַּקְבּוּק, וְרוֹאָה אֵיךְ נִרְאֶה גַּל.",
+      stuff: "בַּקְבּוּק שָׁקוּף עִם פְּקָק, מַיִם, שֶׁמֶן, צֶבַע מַאֲכָל כָּחֹל",
+      steps: [
+        "מַלְּאִי חֲצִי בַּקְבּוּק בְּמַיִם, וְשִׂימִי טִפָּה שֶׁל צֶבַע כָּחֹל.",
+        "מַלְּאִי אֶת הַשְּׁאָר בְּשֶׁמֶן, וְסִגְרִי אֶת הַפְּקָק חָזָק מְאוֹד.",
+        "הַנִּיחִי אֶת הַבַּקְבּוּק בְּשׁוֹכֵב, וְנַעֲנְעִי אוֹתוֹ לְאַט מִצַּד לְצַד."
+      ],
+      twist: "הַכְנִיסִי חָרוּז קָטָן. הוּא זָז עַל הַגַּלִּים כְּמוֹ סִירָה."
+    }
+  ];
+
+  const QUESTIONS = [
+    {
+      q: "אֵיךְ נוֹצַר הַיָּם?", e: "🌊",
+      a: "לִפְנֵי הַרְבֵּה מְאוֹד שָׁנִים כַּדּוּר הָאָרֶץ הָיָה חַם מְאוֹד, וְכָל הַמַּיִם עָלוּ לְמַעְלָה כְּמוֹ אֵדִים. אַחַר כָּךְ הוּא הִתְקָרֵר, וְיָרַד גֶּשֶׁם עֲנָק שֶׁלֹּא נִפְסַק הַרְבֵּה זְמַן. הַמַּיִם זָרְמוּ לַבּוֹרוֹת הַכִּי עֲמֻקִּים שֶׁהָיוּ, וְהַבּוֹרוֹת הָאֵלֶּה הֵם הַיָּם. בַּדֶּרֶךְ הַמַּיִם עָבְרוּ עַל אֲבָנִים וְלָקְחוּ מֵהֶן מֶלַח. לָכֵן הַיָּם מָלוּחַ, וְהַגֶּשֶׁם לֹא.",
+      try: "נַסִּי: כּוֹס מַיִם, חֲצִי כַּפִּית מֶלַח, וְלַעֲרְבֵּב. טַעֲמִי טִפָּה. כָּכָה טַעַם הַיָּם, וְהַמֶּלַח הִגִּיעַ מֵאֲבָנִים."
+    },
+    {
+      q: "לָמָּה הַשָּׁמַיִם כְּחֻלִּים?", e: "☁️",
+      a: "הָאוֹר שֶׁל הַשֶּׁמֶשׁ נִרְאֶה לָבָן, אֲבָל בֶּאֱמֶת הוּא כָּל הַצְּבָעִים בְּיַחַד. כְּשֶׁהָאוֹר נִכְנָס לָאֲוִיר, הוּא מִתְפַּזֵּר לְכָל הַכִּוּוּנִים. הַכָּחֹל מִתְפַּזֵּר הַכִּי הַרְבֵּה, וְלָכֵן אֲנַחְנוּ רוֹאִים שָׁמַיִם כְּחֻלִּים. בַּשְּׁקִיעָה הָאוֹר עוֹבֵר דֶּרֶךְ יוֹתֵר אֲוִיר, הַכָּחֹל נִגְמָר בַּדֶּרֶךְ, וְנִשְׁאָרִים אָדֹם וְכָתֹם.",
+      try: "נַסִּי: פָּנָס דֶּרֶךְ כּוֹס מַיִם עִם טִפַּת חָלָב. מִהַצַּד הַמַּיִם נִרְאִים תְּכֵלֶת, וּמִלְּפָנִים הָאוֹר נִרְאֶה כָּתֹם."
+    },
+    {
+      q: "לָמָּה יֵשׁ לַיְלָה?", e: "🌙",
+      a: "הַשֶּׁמֶשׁ לֹא כָּבָה בַּלַּיְלָה. כַּדּוּר הָאָרֶץ מִסְתּוֹבֵב כְּמוֹ סְבִיבוֹן, וְסִבּוּב אֶחָד לוֹקֵחַ יוֹם שָׁלֵם. כְּשֶׁהַמָּקוֹם שֶׁאֲנַחְנוּ גָּרִים בּוֹ פּוֹנֶה אֶל הַשֶּׁמֶשׁ, אֶצְלֵנוּ יוֹם. כְּשֶׁהוּא מִסְתּוֹבֵב לַצַּד הַשֵּׁנִי, אֶצְלֵנוּ לַיְלָה — וּבְמָקוֹם אַחֵר בָּעוֹלָם בְּדִיּוּק אָז בֹּקֶר.",
+      try: "נַסִּי: פָּנָס הוּא הַשֶּׁמֶשׁ, וְתַפּוּז הוּא כַּדּוּר הָאָרֶץ. סַמְּנִי נְקֻדָּה עַל הַתַּפּוּז וְסוֹבְבִי לְאַט. הַנְּקֻדָּה נִכְנֶסֶת לְאוֹר, וְאָז לְחֹשֶׁךְ."
+    },
+    {
+      q: "מֵאֵיפֹה בָּא הַגֶּשֶׁם?", e: "🌧️",
+      a: "הַשֶּׁמֶשׁ מְחַמֶּמֶת אֶת הַיָּם, וְטִפּוֹת קְטַנְטַנּוֹת עוֹלוֹת לָאֲוִיר בְּלִי שֶׁנִּרְאֶה אוֹתָן. לְמַעְלָה קַר, וְהַטִּפּוֹת נִדְבָּקוֹת אַחַת לַשְּׁנִיָּה וְעוֹשׂוֹת עָנָן. כְּשֶׁהֵן נַעֲשׂוֹת כְּבֵדוֹת מִדַּי, הָאֲוִיר לֹא יָכוֹל לְהַחְזִיק אוֹתָן, וְהֵן נוֹפְלוֹת. זֶה גֶּשֶׁם. אַחַר כָּךְ הַמַּיִם חוֹזְרִים לַיָּם, וְהַכֹּל מַתְחִיל מֵהַתְחָלָה.",
+      try: "נַסִּי: נִשְׁפִי עַל חַלּוֹן קַר. הָאֵדִים מֵהַפֶּה שֶׁלָּךְ נַעֲשִׂים טִפּוֹת קְטַנּוֹת, בְּדִיּוּק כְּמוֹ עָנָן."
+    },
+    {
+      q: "אֵיךְ צִפּוֹר עָפָה?", e: "🐦",
+      a: "לַכָּנָף שֶׁל צִפּוֹר יֵשׁ צוּרָה מְיֻחֶדֶת: עֲגֻלָּה מִלְמַעְלָה וּשְׁטוּחָה מִלְּמַטָּה. הָאֲוִיר שֶׁעוֹבֵר מֵעַל הַכָּנָף זָז מַהֵר יוֹתֵר מֵהָאֲוִיר שֶׁמִּתַּחְתֶּיהָ. אֲוִיר מָהִיר לוֹחֵץ פָּחוֹת, וְלָכֵן הָאֲוִיר מִלְּמַטָּה דּוֹחֵף אֶת הַכָּנָף לְמַעְלָה. הַצִּפּוֹר מְנַפְנֶפֶת כְּדֵי לְהִתְקַדֵּם, וְהַכְּנָפַיִם מַרִימוֹת אוֹתָהּ.",
+      try: "נַסִּי: הַחְזִיקִי דַּף לְיַד הַשָּׂפָה שֶׁלָּךְ, כָּךְ שֶׁהוּא נוֹפֵל לְמַטָּה. עַכְשָׁו נִשְׁפִי חָזָק מֵעָלָיו. הַדַּף מִתְרוֹמֵם."
+    },
+    {
+      q: "לָמָּה הַיָּרֵחַ מִשְׁתַּנֶּה?", e: "🌗",
+      a: "הַיָּרֵחַ תָּמִיד עָגֹל, וְהוּא לֹא מֵאִיר לְבַד — הוּא רַק מַחְזִיר אֶת הָאוֹר שֶׁל הַשֶּׁמֶשׁ. הַשֶּׁמֶשׁ מְאִירָה כָּל פַּעַם חֲצִי יָרֵחַ, וְהַיָּרֵחַ מַקִּיף אוֹתָנוּ פַּעַם בְּחֹדֶשׁ. לָכֵן אֲנַחְנוּ רוֹאִים כָּל פַּעַם חֵלֶק אַחֵר מֵהַחֵצִי הַמּוּאָר: פַּעַם עִגּוּל שָׁלֵם, פַּעַם חֵצִי, וּפַעַם רַק קַו דַּק.",
+      try: "נַסִּי: כַּדּוּר עַל הַשֻּׁלְחָן וּפָנָס מִצַּד אֶחָד. הִסְתּוֹבְבִי סְבִיב הַכַּדּוּר, וְתִרְאִי אוֹתוֹ מָלֵא, חֵצִי, וְדַק."
+    },
+    {
+      q: "לָמָּה יֵשׁ קֶשֶׁת בַּשָּׁמַיִם?", e: "🌈",
+      a: "אַחֲרֵי גֶּשֶׁם נִשְׁאָרוֹת בָּאֲוִיר הַרְבֵּה טִפּוֹת מַיִם. כְּשֶׁהָאוֹר נִכְנָס לְטִפָּה הוּא מִתְכּוֹפֵף, נוֹגֵעַ בַּקִּיר הָאֲחוֹרִי שֶׁלָּהּ, וְחוֹזֵר חֲזָרָה. בַּדֶּרֶךְ הוּא מִתְחַלֵּק לְכָל הַצְּבָעִים. כָּל צֶבַע מִתְכּוֹפֵף קְצָת אַחֶרֶת, וְלָכֵן הֵם מִסְתַּדְּרִים בְּשׁוּרוֹת. קֶשֶׁת רוֹאִים כְּשֶׁהַשֶּׁמֶשׁ מֵאָחוֹר וְהַגֶּשֶׁם מִלְּפָנִים.",
+      try: "נַסִּי אֶת הַמִּשְׂחָק ״קֶשֶׁת עַל הַקִּיר״. כּוֹס מַיִם עוֹשָׂה בְּדִיּוּק אוֹתוֹ דָּבָר."
+    },
+    {
+      q: "אֵיךְ עֵץ גָּדֵל מִזֶּרַע קָטָן?", e: "🌳",
+      a: "הָעֵץ בּוֹנֶה אֶת עַצְמוֹ מֵאוֹר, מִמַּיִם וּמֵאֲוִיר. הֶעָלִים לוֹקְחִים אוֹר מֵהַשֶּׁמֶשׁ וְגַז מֵהָאֲוִיר, וְהַשָּׁרָשִׁים לוֹקְחִים מַיִם מֵהָאֲדָמָה. מִכָּל אֵלֶּה הָעֵץ מֵכִין לְעַצְמוֹ אֹכֶל מָתוֹק, וּמֵהָאֹכֶל הַזֶּה נִבְנִים הַגֶּזַע וְהָעֲנָפִים. זֶה נִשְׁמָע מוּזָר, אֲבָל כִּמְעַט כָּל הָעֵץ הַגָּדוֹל בָּא מֵאֲוִיר וּמֵאוֹר.",
+      try: "נַסִּי: שִׂימִי שְׁעוּעִית עַל צֶמֶר גֶּפֶן רָטוּב בְּתוֹךְ צִנְצֶנֶת, לְיַד חַלּוֹן. אַחֲרֵי כַּמָּה יָמִים יֵצֵא שֹׁרֶשׁ."
+    },
+    {
+      q: "אֵיךְ קוֹל מַגִּיעַ לָאֹזֶן?", e: "🔊",
+      a: "כָּל קוֹל מַתְחִיל מֵרְעִידָה. כְּשֶׁאַתְּ מְדַבֶּרֶת, מַשֶּׁהוּ בַּגָּרוֹן שֶׁלָּךְ רוֹעֵד וּמְנַעֲנֵעַ אֶת הָאֲוִיר. הַנִּעְנוּעַ נוֹסֵעַ בָּאֲוִיר כְּמוֹ גַּלִּים בַּמַּיִם, עַד שֶׁהוּא מַגִּיעַ לָאֹזֶן. שָׁם הוּא מְנַעֲנֵעַ עוֹר דַּק מְאוֹד שֶׁנִּקְרָא תֹּף הָאֹזֶן, וְהַמֹּחַ מְתַרְגֵּם אֶת זֶה לְקוֹל. בֶּחָלָל אֵין אֲוִיר, וְלָכֵן שָׁם שֶׁקֶט גָּמוּר.",
+      try: "נַסִּי: מִתְחִי נַיְלוֹן עַל קְעָרָה, פַּזְּרִי עָלָיו קְצָת אֹרֶז, וְצַעֲקִי לְיָדוֹ. הָאֹרֶז מְקַפֵּץ."
+    },
+    {
+      q: "לָמָּה אֲנַחְנוּ חוֹלְמִים?", e: "💭",
+      a: "כְּשֶׁאֲנַחְנוּ יְשֵׁנִים הַגּוּף נָח, אֲבָל הַמֹּחַ עוֹבֵד. הוּא עוֹבֵר עַל כָּל מָה שֶׁקָּרָה בַּיּוֹם, וּמַחְלִיט מָה חָשׁוּב לִזְכֹּר וּמָה אֶפְשָׁר לִשְׁכֹּחַ. בְּזִמַן הַסִּדּוּר הַזֶּה מִתְעָרְבְּבִים דְּבָרִים אֲמִתִּיִּים עִם דִּמְיוֹן, וְיוֹצְאִים סִפּוּרִים מוּזָרִים. אֵלֶּה הַחֲלוֹמוֹת. לָכֵן אַחֲרֵי יוֹם עָמוּס חוֹלְמִים הַרְבֵּה.",
+      try: "נַסִּי: שִׂימִי מַחְבֶּרֶת לְיַד הַמִּטָּה, וְכָל בֹּקֶר צַיְּרִי דָּבָר אֶחָד מֵהַחֲלוֹם. אַחֲרֵי שָׁבוּעַ יֵשׁ לָךְ סֵפֶר חֲלוֹמוֹת."
+    }
+  ];
+
+  const CATS = [
+    { name: "רִקּוּד", ico: "💃" },
+    { name: "שִׁירָה", ico: "🎤" },
+    { name: "קְרִיאָה", ico: "📖" },
+    { name: "יְצִירָה", ico: "🎨" },
+    { name: "מַדָּע", ico: "🔬" },
+    { name: "סִפּוּרִים", ico: "📚" },
+    { name: "הַצָּגוֹת", ico: "🎭" },
+    { name: "דִּמְיוֹן", ico: "✨" },
+    { name: "חֲשִׁיבָה", ico: "🧩" },
+    { name: "תְּנוּעָה", ico: "🤸" },
+    { name: "בְּנִיָּה", ico: "🧱" }
+  ];
+
+  const TIMES = [
+    { key: "short", label: "רֶגַע קָטָן", ico: "⚡", test: g => g.time <= 15 },
+    { key: "mid", label: "עַד חֲצִי שָׁעָה", ico: "⏱️", test: g => g.time > 15 && g.time <= 30 },
+    { key: "long", label: "הַרְבֵּה זְמַן", ico: "🕰️", test: g => g.time > 30 }
+  ];
+
+  const MESSES = [
+    { key: "1", label: "בְּלִי לְלַכְלֵךְ", ico: "✨", test: g => g.mess === 1 },
+    { key: "2", label: "קְצָת לְסַדֵּר בַּסּוֹף", ico: "🧺", test: g => g.mess <= 2 }
+  ];
+
+  const state = { cat: null, time: null, mess: null };
+  const done = new Set(JSON.parse(localStorage.getItem("kai-games-done") || "[]"));
+
+  const grid = document.getElementById("grid");
+  const countEl = document.getElementById("count");
+  const slot = document.getElementById("slot");
+  const machine = document.getElementById("machine");
+
+  function visible() {
+    return GAMES.filter(g =>
+      (!state.cat || g.cat === state.cat) &&
+      (!state.time || TIMES.find(t => t.key === state.time).test(g)) &&
+      (!state.mess || MESSES.find(m => m.key === state.mess).test(g))
+    );
+  }
+
+  const MESS_WORDS = { 1: "בְּלִי לְלַכְלֵךְ", 2: "קְצָת בַּלָּגָן", 3: "הַרְבֵּה בַּלָּגָן" };
+
+  function messHTML(level) {
+    return `<span class="mess" data-level="${level}">${MESS_WORDS[level]}
+      <span class="dots" aria-hidden="true">${[1, 2, 3].map(n =>
+        `<span class="dot" data-on="${n <= level ? 1 : 0}"></span>`).join("")}</span></span>`;
+  }
+
+  function cardHTML(g) {
+    const isDone = done.has(g.t);
+    return `<article class="card" data-done="${isDone ? 1 : 0}">
+      <div class="card-head">
+        <span class="sticker" style="--tint: ${g.tint}" aria-hidden="true">${g.e}</span>
+        <div>
+          <h3>${g.t}</h3>
+          <span class="card-cat">${g.cat} · מִגִּיל ${g.age}</span>
+        </div>
+        <button class="spk" type="button" data-speak="game" data-game="${g.t}" aria-label="הַקְרֵא לִי אֶת חֻקֵּי הַמִּשְׂחָק">🔊</button>
+      </div>
+      <p class="card-line">${g.line}</p>
+      <div class="meta">
+        <span><span class="meta-num">${g.time}</span> דַּקּוֹת</span>
+        ${messHTML(g.mess)}
+      </div>
+      <details>
+        <summary>אֵיךְ מְשַׂחֲקִים <span class="arrow" aria-hidden="true">▼</span></summary>
+        <ol>${g.steps.map(s => `<li>${s}</li>`).join("")}</ol>
+        <p class="stuff"><b>צָרִיךְ:</b> ${g.stuff}</p>
+        <p class="twist"><b>וְאִם בָּא לָךְ עוֹד:</b> ${g.twist}</p>
+      </details>
+      <div class="card-foot">
+        <button class="done" data-game="${g.t}" aria-pressed="${isDone}">${isDone ? "✓ שִׂחַקְתִּי" : "שִׂחַקְתִּי אֶת זֶה"}</button>
+      </div>
+    </article>`;
+  }
+
+  function renderGrid() {
+    const list = visible();
+    grid.innerHTML = list.map(cardHTML).join("");
+    countEl.innerHTML = list.length === GAMES.length
+      ? `<b>${GAMES.length}</b> מִשְׂחָקִים בָּאַרְגַּז`
+      : `נִשְׁאֲרוּ <b>${list.length}</b> מִשְׂחָקִים`;
+  }
+
+  function renderScore() {
+    document.getElementById("doneCount").textContent = done.size;
+    document.getElementById("scoreFill").style.width = (done.size / GAMES.length * 100) + "%";
+    document.getElementById("inventBanner").dataset.on = done.size >= GAMES.length ? "1" : "0";
+  }
+
+  document.getElementById("qGrid").innerHTML = QUESTIONS.map((q, i) => `<article class="q-card">
+    <h3><span class="q-ico" aria-hidden="true">${q.e}</span><span>${q.q}</span>
+      <button class="spk" type="button" data-speak="question" data-q="${i}" aria-label="הַקְרֵא לִי אֶת הַתְּשׁוּבָה">🔊</button></h3>
+    <details>
+      <summary>הַתְּשׁוּבָה <span class="arrow" aria-hidden="true">▼</span></summary>
+      <p>${q.a}</p>
+      <p class="try">${q.try}</p>
+    </details>
+  </article>`).join("");
+
+  function chip(label, ico, group, key) {
+    const b = document.createElement("button");
+    b.className = "chip";
+    b.type = "button";
+    b.innerHTML = `<span class="chip-ico" aria-hidden="true">${ico}</span>${label}`;
+    b.setAttribute("aria-pressed", "false");
+    b.dataset.group = group;
+    b.dataset.key = key;
+    b.addEventListener("click", () => {
+      state[group] = state[group] === key ? null : key;
+      document.querySelectorAll(`[data-group="${group}"]`).forEach(el =>
+        el.setAttribute("aria-pressed", String(el.dataset.key === state[group])));
+      renderGrid();
+    });
+    return b;
+  }
+
+  CATS.forEach(c => document.getElementById("catFilters").appendChild(chip(c.name, c.ico, "cat", c.name)));
+  TIMES.forEach(t => document.getElementById("timeFilters").appendChild(chip(t.label, t.ico, "time", t.key)));
+  MESSES.forEach(m => document.getElementById("messFilters").appendChild(chip(m.label, m.ico, "mess", m.key)));
+
+  grid.addEventListener("click", e => {
+    const btn = e.target.closest(".done");
+    if (!btn) return;
+    const name = btn.dataset.game;
+    done.has(name) ? done.delete(name) : done.add(name);
+    localStorage.setItem("kai-games-done", JSON.stringify([...done]));
+    btn.setAttribute("aria-pressed", String(done.has(name)));
+    btn.textContent = done.has(name) ? "✓ שִׂחַקְתִּי" : "שִׂחַקְתִּי אֶת זֶה";
+    btn.closest(".card").dataset.done = done.has(name) ? 1 : 0;
+    renderScore();
+  });
+
+  let last = null;
+
+  function pick() {
+    const pool = visible().length ? visible() : GAMES;
+    let g = pool[Math.floor(Math.random() * pool.length)];
+    if (pool.length > 1) {
+      while (g === last) g = pool[Math.floor(Math.random() * pool.length)];
+    }
+    last = g;
+
+    machine.classList.add("thinking");
+    setTimeout(() => {
+      machine.classList.remove("thinking");
+      slot.innerHTML = `<div class="pick">
+        <div class="pick-cat">${g.e} ${g.cat} · ${g.time} דַּקּוֹת</div>
+        <h2>${g.t}</h2>
+        <p class="pick-line">${g.line}</p>
+        <ol class="pick-steps">${g.steps.map(s => `<li>${s}</li>`).join("")}</ol>
+        <div class="name-row">
+          <button class="spk" type="button" data-speak="game" data-game="${g.t}" aria-label="הַקְרֵא לִי אֶת חֻקֵּי הַמִּשְׂחָק">🔊</button>
+        </div>
+      </div>`;
+    }, 620);
+  }
+
+  document.getElementById("pickBtn").addEventListener("click", e => {
+    e.currentTarget.textContent = "✨ עוֹד רַעְיוֹן";
+    pick();
+  });
+
+  const goto = id => document.getElementById(id).scrollIntoView({ behavior: "smooth", block: "start" });
+  document.getElementById("jumpGames").addEventListener("click", () => goto("games"));
+  document.getElementById("jumpQ").addEventListener("click", () => goto("questions"));
+
+  /* ---------------- הַקְרָאָה ---------------- */
+
+  const synth = window.speechSynthesis;
+  const speechBar = document.getElementById("speechBar");
+  const noVoice = document.getElementById("noVoice");
+  let hebVoice = null;
+  let spkBtn = null;
+
+  function loadVoice() {
+    if (!synth) return;
+    const voices = synth.getVoices();
+    if (!voices.length) return;
+    hebVoice = voices.find(v => /^he([-_]|$)/i.test(v.lang) || /^iw([-_]|$)/i.test(v.lang)) || null;
+    noVoice.dataset.on = hebVoice ? "0" : "1";
+  }
+
+  if (synth) {
+    loadVoice();
+    synth.addEventListener("voiceschanged", loadVoice);
+  } else {
+    noVoice.dataset.on = "1";
+  }
+
+  function clean(text) {
+    return String(text)
+      .replace(/<[^>]*>/g, " ")
+      .replace(/[\u{1F000}-\u{1FAFF}\u{2600}-\u{27BF}\u{FE0F}\u{2B00}-\u{2BFF}]/gu, " ")
+      .replace(/[·▼▲]/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+  }
+
+  function stopSpeech() {
+    if (synth) synth.cancel();
+    speechBar.dataset.on = "0";
+    if (spkBtn) { spkBtn.dataset.speaking = "0"; spkBtn = null; }
+    document.querySelectorAll(".reading-now").forEach(el => el.classList.remove("reading-now"));
+  }
+
+  function speak(text, btn, host) {
+    if (!synth) return;
+    stopSpeech();
+    const parts = clean(text).split(/(?<=[.!?:])\s+/).filter(Boolean);
+    if (!parts.length) return;
+
+    spkBtn = btn || null;
+    if (spkBtn) spkBtn.dataset.speaking = "1";
+    if (host) host.classList.add("reading-now");
+    speechBar.dataset.on = "1";
+
+    parts.forEach((part, i) => {
+      const u = new SpeechSynthesisUtterance(part);
+      u.lang = "he-IL";
+      if (hebVoice) u.voice = hebVoice;
+      u.rate = 0.85;
+      u.pitch = 1.05;
+      if (i === parts.length - 1) u.onend = stopSpeech;
+      synth.speak(u);
+    });
+  }
+
+  function gameSpeech(g) {
+    return [
+      g.t + ".",
+      g.line,
+      "אֵיךְ מְשַׂחֲקִים:",
+      ...g.steps,
+      "צָרִיךְ: " + g.stuff + ".",
+      "וְאִם בָּא לָךְ עוֹד: " + g.twist
+    ].join(" ");
+  }
+
+  document.getElementById("stopSpeech").addEventListener("click", stopSpeech);
+
+  document.addEventListener("click", e => {
+    const btn = e.target.closest(".spk");
+    if (!btn) return;
+    e.stopPropagation();
+    if (btn.dataset.speaking === "1") { stopSpeech(); return; }
+    const host = btn.closest(".card, .q-card, .slot");
+
+    if (btn.dataset.speak === "game") {
+      const g = GAMES.find(x => x.t === btn.dataset.game);
+      if (g) speak(gameSpeech(g), btn, host);
+    } else if (btn.dataset.speak === "question") {
+      const q = QUESTIONS[Number(btn.dataset.q)];
+      if (q) speak([q.q, q.a, q.try].join(" "), btn, host);
+      const det = btn.closest(".q-card").querySelector("details");
+      if (det) det.open = true;
+    } else if (btn.dataset.speak === "slot") {
+      speak(document.getElementById("slot").textContent, btn, host);
+    }
+  });
+
+  /* מַצַּב הַקְרָאָה: נוֹגְעִים בְּמַשֶּׁהוּ — וְהוּא נִקְרָא בְּקוֹל */
+
+  const readToggle = document.getElementById("readToggle");
+  let readMode = false;
+
+  readToggle.addEventListener("click", () => {
+    readMode = !readMode;
+    readToggle.setAttribute("aria-pressed", String(readMode));
+    readToggle.textContent = readMode ? "🔊 הַקְרָאָה: דָּלוּק" : "🔊 הַקְרָאָה: כָּבוּי";
+    document.body.classList.toggle("read-mode", readMode);
+    if (!readMode) stopSpeech();
+    else speak("מַצַּב הַקְרָאָה דָּלוּק. גְּעִי בְּכָל מַשֶּׁהוּ בַּדַּף, וַאֲנִי אַקְרִיא לָךְ אוֹתוֹ.");
+  });
+
+  document.addEventListener("click", e => {
+    if (!readMode) return;
+    if (e.target.closest("button, input, summary, a")) return;
+    const host = e.target.closest(".card, .q-card, .sec-head, .box-section, .hero-copy, .slot, .rules");
+    if (!host) return;
+    const g = host.classList.contains("card") ? GAMES.find(x => x.t === host.querySelector("h3").textContent) : null;
+    speak(g ? gameSpeech(g) : host.textContent, null, host);
+  });
+
+  /* ---------------- הַמְצָאָה חֲדָשָׁה ---------------- */
+
+  const THINGS = [
+    { n: "גַּרְבַּיִם מְגֻלְגָּלוֹת", of: "הַגַּרְבַּיִם", f: true },
+    { n: "כַּפְתּוֹרִים", of: "הַכַּפְתּוֹרִים" },
+    { n: "כָּרִיּוֹת", of: "הַכָּרִיּוֹת", f: true },
+    { n: "דַּפִּים מְקֻפָּלִים", of: "הַדַּפִּים" },
+    { n: "כּוֹסוֹת פְּלַסְטִיק", of: "הַכּוֹסוֹת", f: true },
+    { n: "גְּלִילֵי נְיָר", of: "הַגְּלִילִים" },
+    { n: "קְלָפִים", of: "הַקְּלָפִים" },
+    { n: "צַעֲצוּעִים קְטַנִּים", of: "הַצַּעֲצוּעִים" },
+    { n: "סְפָרִים", of: "הַסְּפָרִים" },
+    { n: "מִכְסִים שֶׁל בַּקְבּוּקִים", of: "הַמִּכְסִים" },
+    { n: "מַגָּבוֹת", of: "הַמַּגָּבוֹת", f: true },
+    { n: "מַקְלוֹנִים", of: "הַמַּקְלוֹנִים" }
+  ];
+
+  const ACTIONS = [
+    "לְהַעֲבִיר {them} מִיָּד לְיָד בְּלִי לְהַפִּיל",
+    "לְמַיֵּן {them} לְפִי צֶבַע כַּמָּה שֶׁיּוֹתֵר מַהֵר",
+    "לִבְנוֹת {from} מִגְדָּל גָּבוֹהַּ",
+    "לְהַחְבִּיא {them} וְאָז לִמְצֹא {them}",
+    "לְהַמְצִיא {to} רִקּוּד קָצָר",
+    "לְסַדֵּר {them} בְּשׁוּרָה לְפִי גֹּדֶל",
+    "לְהַעֲבִיר {them} מִקְּעָרָה אַחַת לִשְׁנִיָּה",
+    "לְהַמְצִיא {on} סִפּוּר",
+    "לְנַחֵשׁ בְּמִשּׁוּשׁ מָה זֶה, בְּלִי לְהִסְתַּכֵּל",
+    "לְהַעֲמִיד {them} אֶחָד עַל הַשֵּׁנִי",
+    "לִזְרֹק {them} לְתוֹךְ סַל",
+    "לְצַיֵּר {them} בְּלִי לְהָרִים אֶת הָעִפָּרוֹן"
+  ];
+
+  const PRONOUNS = {
+    m: { them: "אוֹתָם", from: "מֵהֶם", to: "לָהֶם", on: "עֲלֵיהֶם" },
+    f: { them: "אוֹתָן", from: "מֵהֶן", to: "לָהֶן", on: "עֲלֵיהֶן" }
+  };
+
+  const gender = (text, thing) =>
+    text.replace(/\{(them|from|to|on)\}/g, (_, k) => PRONOUNS[thing.f ? "f" : "m"][k]);
+
+  const PLACES = [
+    "עַל הַשָּׁטִיחַ בַּסָּלוֹן",
+    "עַל שֻׁלְחָן הַמִּטְבָּח",
+    "בַּמִּסְדְּרוֹן",
+    "מִתַּחַת לַשֻּׁלְחָן",
+    "עַל הַמִּטָּה",
+    "בְּתוֹךְ אֹהֶל מִשְּׂמִיכָה"
+  ];
+
+  const CHALLENGES = [
+    "רַק בְּיָד אַחַת",
+    "בְּלִי לְדַבֵּר, רַק בִּתְנוּעוֹת",
+    "כְּשֶׁאַתְּ עוֹמֶדֶת עַל רֶגֶל אַחַת",
+    "בְּתוֹךְ דַּקָּה אַחַת בִּלְבַד",
+    "בְּעֵינַיִם עֲצוּמוֹת",
+    "כְּשֶׁכֻּלָּם רַק לוֹחֲשִׁים",
+    "בְּתוֹךְ הַקֶּצֶב שֶׁל שִׁיר"
+  ];
+
+  const SCORES = [
+    "כָּל הַצְלָחָה שָׁוָה נְקֻדָּה אַחַת",
+    "מִי שֶׁמַּגִּיעַ רִאשׁוֹן לְחָמֵשׁ נְקֻדּוֹת נִצַּח",
+    "מוֹדְדִים זְמַן, וְאָז מְנַסִּים לִשְׁבֹּר אֶת הַשִּׂיא",
+    "כֻּלָּם בְּיַחַד נֶגֶד הַשָּׁעוֹן"
+  ];
+
+  const TITLES = ["אֲלִיפוּת", "מִבְצַע", "סוֹד", "אַגָּדַת", "מִסְתּוֹרִין", "מִשְׂחַק"];
+  const TINTS = ["var(--mint)", "var(--lilac)", "var(--peach)", "var(--butter)", "var(--blush)", "var(--sky)"];
+
+  const rand = arr => arr[Math.floor(Math.random() * arr.length)];
+  let lastInvented = "";
+
+  function invent() {
+    const thing = rand(THINGS);
+    const title = rand(TITLES) + " " + thing.of;
+    const g = {
+      t: title,
+      e: "💡",
+      cat: "הַמְצָאָה",
+      time: 15,
+      tint: rand(TINTS),
+      line: "מִשְׂחָק חָדָשׁ לְגַמְרֵי, שֶׁהַמְּכוֹנָה הִמְצִיאָה עַכְשָׁו בִּשְׁבִילֵךְ.",
+      stuff: thing.n,
+      steps: [
+        gender("קְחִי " + thing.n + " וְשִׂימִי {them} " + rand(PLACES) + ".", thing),
+        gender("הַמְּשִׂימָה: " + rand(ACTIONS) + " — " + rand(CHALLENGES) + ".", thing),
+        rand(SCORES) + ".",
+        "תְּנִי לַמִּשְׂחָק שֵׁם, וְאִם הוּא יָצָא כִּיפִי — לַמְּדִי אוֹתוֹ לְמִישֶׁהוּ."
+      ],
+      twist: "שַׂחְקוּ אֶת אוֹתוֹ מִשְׂחָק, אֲבָל הַפַּעַם הָפוּךְ: מִי שֶׁמַּפְסִיד — נִצַּח."
+    };
+    if (g.t === lastInvented) return invent();
+    lastInvented = g.t;
+    return g;
+  }
+
+  function showInvented() {
+    stopSpeech();
+    const g = invent();
+    machine.classList.add("thinking");
+    setTimeout(() => {
+      machine.classList.remove("thinking");
+      slot.innerHTML = `<div class="pick pick--new">
+        <div class="pick-cat">💡 הַמְצָאָה טְרִיָּה · ${g.time} דַּקּוֹת</div>
+        <h2 id="inventedName">${g.t}</h2>
+        <p class="pick-line">${g.line}</p>
+        <ol class="pick-steps">${g.steps.map(s => `<li>${s}</li>`).join("")}</ol>
+        <div class="name-row">
+          <label for="nameInput">אֵיךְ תִּקְרְאִי לוֹ?</label>
+          <input id="nameInput" type="text" placeholder="הַשֵּׁם שֶׁלָּךְ לַמִּשְׂחָק">
+          <button class="spk" type="button" data-speak="slot" aria-label="הַקְרֵא לִי אֶת הַמִּשְׂחָק הֶחָדָשׁ">🔊</button>
+        </div>
+      </div>`;
+      slot.querySelector("#nameInput").addEventListener("input", ev => {
+        const v = ev.target.value.trim();
+        slot.querySelector("#inventedName").textContent = v || g.t;
+      });
+    }, 620);
+  }
+
+  document.getElementById("inventBtn").addEventListener("click", showInvented);
+  document.getElementById("inventBtn2").addEventListener("click", showInvented);
+
+  document.getElementById("totalSub").textContent = GAMES.length;
+  document.getElementById("totalScore").textContent = GAMES.length;
+  document.getElementById("totalQ").textContent = QUESTIONS.length;
+
+  renderGrid();
+  renderScore();
+</script>
