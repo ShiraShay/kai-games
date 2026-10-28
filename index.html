@@ -1545,6 +1545,12 @@
   function speak(text, btn, host) {
     if (!synth) return;
     stopSpeech();
+    // באייפד רשימת הקולות מגיעה באיחור ו-voiceschanged לא תמיד נורה — בלי קול עברי ספארי מקריא בקול האנגלי של המכשיר
+    if (!hebVoice) loadVoice();
+    if (!hebVoice && synth.getVoices().length) {
+      noVoice.scrollIntoView({ behavior: "smooth", block: "center" });
+      return;
+    }
     const parts = clean(text).split(/(?<=[.!?:])\s+/).filter(Boolean);
     if (!parts.length) return;
 
@@ -1555,7 +1561,7 @@
 
     parts.forEach((part, i) => {
       const u = new SpeechSynthesisUtterance(part);
-      u.lang = "he-IL";
+      u.lang = hebVoice ? hebVoice.lang : "he-IL";
       if (hebVoice) u.voice = hebVoice;
       u.rate = 0.85;
       u.pitch = 1.05;
